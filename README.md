@@ -1,13 +1,13 @@
-# TPE ARQUITECTURA DE COMPUTADORAS
+# TPE 2 - SISTEMAS OPERATIVOS
 
-. Fecha de entrega: 05/06/23
+. Fecha de entrega: 06/11/23
 
-. Primer Cuatrimestre 2023
+. Segundo Cuatrimestre 2023
 
 ## Integrantes:
 
-- Axel Castro Benza - 62358
-
 - Rocio D'Intino - 62341
 
-- Ian Franco Tognetti - 61215# TPE2-SO
+- Brian D'Arco - 56413
+
+- Matias Luchetti - 62337
