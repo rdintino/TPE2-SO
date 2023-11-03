@@ -6,17 +6,14 @@ void idleTask(){
 }
 
 void enableMultiTasking(){
-
-	idleTaskPid = add_task((uint64_t)&idleTask, STDIN, BACKGROUND, DEFAULT_PRIORITY, IMMORTAL,idleArg);
-	
-	alter_process_state(idleTaskPid, PAUSED_PROCESS);		// pause until it's required
-
-	forceCurrentTask();
+	idleTaskPID = addTask((uint64_t)&idleTask, STDIN, BACKGROUND, DEFAULT_PRIORITY, IMMORTAL,idleArg);
+	changeState(idleTaskPID, PAUSED_PROCESS);		// pause until it's required
+	// forceCurrentTask();
 }
 
 
-unsigned int get_current_pid(){
-	return tasks[currentTask].pid;
+unsigned int getCurrentPID(){
+	return tasks[currentTask].PID;
 }
 uint64_t getRSP(){
 	return tasks[currentTask].stackPointer;
@@ -24,31 +21,31 @@ uint64_t getRSP(){
 uint64_t getSS(){
 	return tasks[currentTask].stackSegment;
 }
-uint8_t get_current_output(){
+uint8_t getCurrentOuput(){
 	return tasks[currentTask].output;
 }
-uint8_t get_current_input(){
+uint8_t getCurrentInput(){
 	return tasks[currentTask].input;
 }
 
-uint8_t get_state(unsigned int pid){
-	int pos = findTask(pid);
+uint8_t getState(unsigned int PID){
+	int pos = findTask(PID);
 	if(pos==NO_TASK_FOUND)
 		return NO_TASK_FOUND;
 	
 	return tasks[pos].state;
 }
 
-int findTask(unsigned int pid){
+int findTask(unsigned int PID){
 	for(int i=0; i<TOTAL_TASKS; i++){
-		if(tasks[i].pid == pid && tasks[i].state != DEAD_PROCESS)
+		if(tasks[i].PID == PID && tasks[i].state != DEAD_PROCESS)
 			return i;
 	}	
-	return NO_TASK_FOUND;			// no task with that pid found
+	return NO_TASK_FOUND;			// no task with that PID found
 }
 
 
-uint64_t build_stack(uint64_t entrypoint, char ** arg0, uint64_t stackEnd){
+uint64_t buildStack(uint64_t entrypoint, char ** arg0, uint64_t stackEnd){
 	uint64_t stackStart = stackEnd + STACK_SIZE;
 	stackStart -= stackStart % ALINGMENT;
 
@@ -72,7 +69,7 @@ uint64_t build_stack(uint64_t entrypoint, char ** arg0, uint64_t stackEnd){
 	return stackStart;
 }
 
-int add_task(uint64_t entrypoint, uint8_t input, uint8_t output, uint8_t priority, uint8_t immortal, char ** arg0){
+int addTask(uint64_t entrypoint, uint8_t input, uint8_t output, uint8_t priority, uint8_t immortal, char ** arg0){
 	if(currentDimTasks>=TOTAL_TASKS){
 		return ERROR_NO_SPACE_FOR_TASK;
 	}
@@ -92,7 +89,7 @@ int add_task(uint64_t entrypoint, uint8_t input, uint8_t output, uint8_t priorit
 	tasks[pos].stackPointer = (uint64_t) stackStart - STACK_POINT_OF_ENTRY; 
 	tasks[pos].stackSegment = SS_VALUE;							
 
-	tasks[pos].pid = newPidValue++;
+	tasks[pos].PID = newPID++;
 	tasks[pos].state = ACTIVE_PROCESS;
 	tasks[pos].priority = priority;
 	tasks[pos].immortal = immortal;
@@ -106,10 +103,10 @@ int add_task(uint64_t entrypoint, uint8_t input, uint8_t output, uint8_t priorit
 	tasks[pos].input = input;
 	tasks[pos].output = output;
 
-	return tasks[pos].pid;
+	return tasks[pos].PID;
 }
 
-void free_params(char ** params){
+void freeParams(char ** params){
 	if(params==NULL)
 		return;
 
@@ -120,9 +117,9 @@ void free_params(char ** params){
 }
 
 
-void destroy_process(unsigned int pos){
-	signal_process_finished(tasks[pos].pid);
-	free_params(tasks[pos].params);
+void endProcess(unsigned int pos){
+	signalFinished(tasks[pos].PID);
+	freeParams(tasks[pos].params);
 	tasks[pos].state = DEAD_PROCESS;
 	currentDimTasks--;
 	mm_free(tasks[pos].stackEnd);
@@ -131,39 +128,38 @@ void destroy_process(unsigned int pos){
 void removeCurrentTask(){
 	_cli();
 
-	destroy_process(currentTask);
+	endProcess(currentTask);
 	
 	uint8_t out = tasks[currentTask].output;
 	if(out != STDOUT){
-		signal_eof(out);
+		// signal_eof(out);
 	}
-
 	forceChangeTask();
 
 }
 
 void forceChangeTask(){
 	currentRemainingTicks = tasks[currentTask].priority + 1;
-	forceTimerTick();
+	// forceTimerTick();
 }
 
-void alter_process_state(unsigned int pid, uint8_t new_state){
-	int pos = findTask(pid);
+void changeState(unsigned int PID, uint8_t new_state){
+	int pos = findTask(PID);
 	if(pos == NO_TASK_FOUND)
 		return;
 
 	tasks[pos].state = new_state;
 }
 
-int removeTask(unsigned int pid){
-	int pos = findTask(pid);
-	if(pos < 0)					// no task with that pid found
+int removeTask(unsigned int PID){
+	int pos = findTask(PID);
+	if(pos < 0)					// no task with that PID found
 		return NO_TASK_FOUND;
 
 	if(tasks[pos].immortal)
 		return TASK_NOT_ALTERED;
 
-	destroy_process(pos);
+	endProcess(pos);
 
 	if(pos == currentTask){
 		forceChangeTask();
@@ -172,8 +168,8 @@ int removeTask(unsigned int pid){
 	return TASK_ALTERED;
 }
 
-unsigned int change_priority(unsigned int pid, int delta){
-	int pos = findTask(pid);
+unsigned int changePriority(unsigned int PID, int delta){
+	int pos = findTask(PID);
 	if(pos < 0)
 		return NO_TASK_FOUND;
 
@@ -187,7 +183,7 @@ unsigned int change_priority(unsigned int pid, int delta){
 	return true;
 }
 
-uint8_t has_or_decrease_time(){
+uint8_t enoughTimeLeft(){
 	if(currentRemainingTicks < tasks[currentTask].priority - 1){
 		tasks[currentTask].ticks++;
 		currentRemainingTicks++;
@@ -197,7 +193,7 @@ uint8_t has_or_decrease_time(){
 
 }
 
-uint64_t next_task(uint64_t stackPointer, uint64_t stackSegment){
+uint64_t nextTask(uint64_t stackPointer, uint64_t stackSegment){
 
 	tasks[currentTask].stackPointer = stackPointer;			
 	tasks[currentTask].stackSegment = stackSegment;
@@ -218,11 +214,11 @@ uint64_t next_task(uint64_t stackPointer, uint64_t stackSegment){
 	}
 
 	if(counter == currentDimTasks){				// if all tasks are paused -> unpause idle task
-		currentTask = findTask(idleTaskPid);
-		alter_process_state(idleTaskPid, ACTIVE_PROCESS);
+		currentTask = findTask(idleTaskPID);
+		changeState(idleTaskPID, ACTIVE_PROCESS);
 	}
-	else if(tasks[currentTask].pid != idleTaskPid){			// if idle task is not paused -> pause it
-		alter_process_state(idleTaskPid, PAUSED_PROCESS);
+	else if(tasks[currentTask].PID != idleTaskPID){			// if idle task is not paused -> pause it
+		changeState(idleTaskPID, PAUSED_PROCESS);
 	}
 
 	currentRemainingTicks = 0;			// reset ticks counter
@@ -231,7 +227,7 @@ uint64_t next_task(uint64_t stackPointer, uint64_t stackSegment){
 }
 
 
-int get_process_info(process_info * info){
+int getProcessInfo(process_info * info){
 	int j=0;
 	for(int i=0; i<TOTAL_TASKS; i++){
 		if(tasks[i].state != DEAD_PROCESS){
@@ -239,7 +235,7 @@ int get_process_info(process_info * info){
 			if(tasks[i].params !=NULL){
 				info[j].name = tasks[i].params[0];		
 			}
-			info[j].id = tasks[i].pid;
+			info[j].id = tasks[i].PID;
 			info[j].state = tasks[i].state;
 			info[j].priority = tasks[i].priority;
 			info[j].stack = (uint64_t) tasks[i].stackStart;

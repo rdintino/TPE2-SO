@@ -1,11 +1,12 @@
-#ifndef _MULTITASKING_H
-#define _MULTITASKING_H
+#ifndef MULTITASKING_H
+#define MULTITASKING_H
 
 #include <interrupts.h>
 #include <stdint.h>
 #include <types.h>
 #include <stdbool.h>
 #include <syscalls.h>
+#include <memoryManager.h>
 
 #define NO_TASKS 0
 #define NO_TASK_FOUND -1
@@ -55,7 +56,7 @@
 
 // Task info
 typedef struct process_control_block{
-		unsigned int pid;				// unique identifier > 0
+		unsigned int PID;				// unique identifier > 0
 
 		uint64_t  stackPointer;			// value of rsp 
 		uint64_t  stackSegment;  		// value of ss (constant) = 0
@@ -75,49 +76,37 @@ typedef struct process_control_block{
 
 static process_control_block tasks[TOTAL_TASKS];
 
-static unsigned int newPidValue = 1;					// process identifier
+static unsigned int newPID = 1;					// process identifier
 	
 static unsigned int currentTask = 0;
 static unsigned int currentRemainingTicks = 0;			// amount of timer ticks remaining for the current process
 static unsigned int currentDimTasks = 0;
 
-static unsigned int idleTaskPid = 1;
+static unsigned int idleTaskPID = 1;
 
 static char * idleArg[] = {"idle", NULL};
-int get_process_info(process_info * info);
-
-void list_process();
 
 void enableMultiTasking();
 
 uint64_t getRSP();
 uint64_t getSS();
-uint8_t get_current_output();
-uint8_t get_current_input();
-unsigned int  get_current_pid();
+uint8_t getCurrentOutput();
+uint8_t getCurrentInput();
+unsigned int  getCurrentPID();
 
-
-int findTask(unsigned int pid);
-
-int add_task(uint64_t entrypoint, uint8_t input, uint8_t output, uint8_t priority, uint8_t immortal, char ** arg0);
-
-void alter_process_state(unsigned int pid, uint8_t new_state);
-void alter_state_if(uint8_t old_state, uint8_t new_state);
-
-void pauseScreenProcess(unsigned int screen);
-int pauseOrUnpauseProcess(unsigned int pid);
-
-void kill_screen_processes();
+int findTask(unsigned int PID);
+int addTask(uint64_t entrypoint, uint8_t input, uint8_t output, uint8_t priority, uint8_t immortal, char ** arg0);
+void changeState(unsigned int PID, uint8_t new_state);
 void removeCurrentTask();
-int removeTask(unsigned int pid);
+int removeTask(unsigned int PID);
 
-unsigned int change_priority(unsigned int pid, int delta);
+unsigned int changePriority(unsigned int PID, int delta);
 
 void forceChangeTask();
 
-/* --- Scheduling --- */
-uint8_t has_or_decrease_time();
-uint64_t next_task(uint64_t stackPointer, uint64_t stackSegment);
+uint8_t enoughTimeLeft();
+uint64_t nextTask(uint64_t stackPointer, uint64_t stackSegment);
+int getProcessInfo(process_info * info);
 
 
 
