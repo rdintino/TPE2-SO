@@ -18,6 +18,11 @@
 #define SYS_INFO_REG 6
 #define SYS_DRAW 7
 
+#define BACKGROUND 0
+#define STDIN 1
+#define STDOUT 1
+#define STDERR 2
+
 void sys_write(char * string, int row, int col, int color);
 void sys_read(char *buffer, int length);
 void sys_clear();
