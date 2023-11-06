@@ -2,6 +2,7 @@
 #define SEMAPHORE_H
 
 #include <multitasking.h>
+#include <queue.h>
 #include <interrupts.h>
 #include <types.h>
 #include <locks.h>
@@ -23,6 +24,7 @@ typedef struct semaphoreData{
 	unsigned int ID;
 	unsigned int value;
 	unsigned int lock;
+	queueData queue;
 }semaphoreData;
 
 static semaphoreData semaphoreList[MAX_SEM] = {{0}};

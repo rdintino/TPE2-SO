@@ -17,6 +17,7 @@ int createSemaphore(unsigned int ID, unsigned int value){
 			return INVALID_SEM_ID_ERROR;
 		}
 	}
+	createQueue(&(semaphoreList[freePos].queue), MAX_PROCESS);
 	semaphoreList[freePos].ID = ID;
 	semaphoreList[freePos].value = value;
 	activeSem++;
@@ -31,6 +32,7 @@ void destroySemaphore(unsigned int ID){
 		semaphoreList[pos].ID = 0;
 		semaphoreList[pos].value = 0;
 		unlock(&(semaphoreList[pos].lock));
+		destroyQueue(&(semaphoreList[pos].queue));
 	}
 	return;
 }
@@ -56,6 +58,7 @@ unsigned int waitSemaphore(unsigned int ID){
 	else{
 		int PID = getCurrentPID();
 		changeState(PID, WAITING_FOR_SEM);
+		enqueue(&(semaphoreList[pos].queue), PID);
 		unlock(&(semaphoreList[pos].lock));
 		forceChangeTask();
 		return true;
@@ -100,4 +103,21 @@ int makeSemaphoreAvailable(unsigned int value){
 		return INVALID_SEM_ID_ERROR;
 	}
 	return ID;
+}
+
+unsigned int signalSemaphore(unsigned int ID){
+	int pos = findSemaphore(ID);
+	if(pos == INVALID_SEM_ID_ERROR){
+		return INVALID_SEM_ID_ERROR;
+	}
+
+	lock(&(semaphoreList[pos].lock));
+	if(getQueueSize(&(semaphoreList[pos].queue)) > 0){
+		unsigned int blockedPID = dequeue(&(semaphoreList[pos].queue));
+		changeState(blockedPID, ACTIVE_PROCESS);
+	} else{
+		semaphoreList[pos].value++;
+	}
+	unlock(&(semaphoreList[pos].lock));
+	return true;
 }
