@@ -6,6 +6,9 @@ GLOBAL getDay
 GLOBAL getMonth
 GLOBAL getYear
 GLOBAL getPressedKey
+GLOBAL _xadd
+GLOBAL _xchg
+GLOBAL _RTC
 
 section .text
 	
@@ -82,4 +85,14 @@ _RTC:
 getPressedKey:
 	mov rax, 0
 	in al, 60h
+	ret
+
+_xadd:
+	mov rax, rdi
+	lock xadd [rsi], eax
+	ret
+
+_xchg:
+	mov rax, rsi
+	xchg [rdi], eax
 	ret

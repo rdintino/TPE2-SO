@@ -1,9 +1,10 @@
 #ifndef _PIPES_H_
 #define _PIPES_H_
 
-#include "../include/memoryManager.h"
+#include <memoryManager.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <types.h>
 
 #define INVALID_PIPE_ID -1
 #define EOF -1

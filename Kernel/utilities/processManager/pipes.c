@@ -1,5 +1,4 @@
 #include "../include/pipes.h"
-#include "../include/types.h"
 
 #define MAX_PIPES 20
 #define PIPE_SIZE 1024
