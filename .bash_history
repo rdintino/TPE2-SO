@@ -46,3 +46,8 @@ make clean all
 make clean all
 ./run.sh
 make clean all
+cd root
+cd Toolchain/
+make all
+cd ..
+make all
