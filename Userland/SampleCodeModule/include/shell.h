@@ -32,6 +32,18 @@ void pong();
 void infoReg();
 void clear();
 uint64_t test_mm(uint64_t argc, char *argv[]);
-void test_processes(uint64_t argc, char *argv[])
+void test_processes(uint64_t argc, char *argv[]);
+void mem();
+
+void ps();
+void loop();
+void kill();
+void nice();
+void block();
+
+void cat();
+void wc();
+void filter();
+void phylo();
 
 #endif

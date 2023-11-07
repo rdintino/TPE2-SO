@@ -38,8 +38,8 @@ int create_pipe(unsigned int pipe_id){
 		return NO_SPACE_ERROR;
 	}
 	pipe_info[freePos].pipe_id = pipe_id;
-	pipe_info[freePos].read_sem_id  = sem_id1;//semaphore
-	pipe_info[freePos].write_sem_id  = sem_id2; //semaphore
+	pipe_info[freePos].read_sem_id  = sem_id1;
+	pipe_info[freePos].write_sem_id  = sem_id2;
 	pipe_info[freePos].write_pos = 0;
 	pipe_info[freePos].read_pos = 0;
 	pipe_info[freePos].amount = 0;

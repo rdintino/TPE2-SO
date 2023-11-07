@@ -41,3 +41,34 @@ void sys_draw(int row, int col, int color){
     putPixel(row, col, color);
 }
 
+uint64_t sysAlloc(uint64_t len) {
+	return (uint64_t) mm_malloc(len);
+}
+
+uint64_t sysDestroyPipe(unsigned int pipe_id){
+	destroy_pipe(pipe_id);
+	return 1;
+}
+
+uint64_t sysPipeInfo(pipes_info * info){
+	return get_pipe_info(info);
+}
+
+uint64_t sysReadPipe(unsigned int pipe_id, char * dest, unsigned int count){
+	return read_from_pipe(pipe_id, dest, count);
+}
+
+uint64_t sysRegisterPipeAvailable(){
+	return create_pipe_available();
+}
+
+uint64_t sysRegisterPipe(unsigned int pipe_id){
+	return create_pipe(pipe_id);
+}
+
+uint64_t sysWritePipe(unsigned int pipe_id, const char * src, unsigned int count){
+	return write_to_pipe(pipe_id, src, count);
+}
+
+
+
