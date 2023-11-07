@@ -8,7 +8,8 @@ modules module[] = {
     {"pong", "          -    Loads Pong game", pong},
     {"inforeg", "       -    Displays the registers state", infoReg},
     {"clear", "         -    Clears the screen", clear},
-    {"testMm","         -    Test memory manager", test_mm}
+    {"testMm","         -    Test memory manager", test_mm},
+    {"testProcess","    -    Test process management",test_processes}
 };
 
 static char *starter = "$> ";

@@ -32,5 +32,6 @@ void pong();
 void infoReg();
 void clear();
 void test_mm();
+void test_processes();
 
 #endif
