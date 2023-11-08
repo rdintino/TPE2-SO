@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <date.h>
-#include <data_types.h>
+#include <types.h>
 
 #define BACKGROUND 0
 #define STDIN 1
@@ -49,7 +49,7 @@ void putPixel(int row, int col, int color);
 
 uint64_t alloc(int len);
 void destroyPipe( int pipeID);
-uint64_t pipeInfo(pipes_info * info);
+uint64_t pipeInfo(pipesInfo * info);
 uint64_t readPipe(int pipeID, char * dest, int count);
 uint64_t registerPipeAvailable();
 uint64_t writePipe(int pipeID, const char * src, int count);
@@ -60,5 +60,5 @@ uint64_t registerSemaphore(uint64_t semID, unsigned int value);
 uint64_t registerSemaphoreAvailable(unsigned int value);
 uint64_t registerChildProcess(uint64_t entryPoint, uint8_t input, uint8_t output, uint64_t arg0);
 uint64_t waitChildren();
-uint64_t getPid();
+uint64_t getPID();
 #endif

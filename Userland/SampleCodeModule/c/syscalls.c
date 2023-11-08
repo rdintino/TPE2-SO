@@ -40,7 +40,7 @@ void destroyPipe( int pipeID){
     _syscall(SYS_DESTROY_PIPE, pipeID);
 }
 
-uint64_t pipeInfo(pipes_info * info){
+uint64_t pipeInfo(pipesInfo * info){
     return _syscall(SYS_PIPE_INFO, info);
 }
 
@@ -84,6 +84,6 @@ uint64_t waitChildren(){
     return _syscall(SYS_WAIT_CHILDREN);
 }
 
-uint64_t getPid(){
+uint64_t getPID(){
     return _syscall(SYS_GET_PID);
 }

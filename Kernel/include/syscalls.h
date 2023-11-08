@@ -12,6 +12,8 @@
 #include <memoryManager.h>
 #include <pipes.h>
 #include <semaphore.h>
+#include <types.h>
+#include <childProcess.h>
 
 #define BACKGROUND 0
 #define STDIN 1

@@ -56,12 +56,12 @@ uint64_t testSync(uint64_t argc, char *argv[]) { //{n, use_sem, 0}
     destroySemaphore(SEM_ID);
   }
 
-  printf("Global expected value: %d. Global final value: %d\n", MAX * TOTAL_PAIR_PROCESSES, global);
+  printf("Global expected value: ");
   char * expectedValue = int64ToString(MAX * TOTAL_PAIR_PROCESSES);
-  printf(expectedValue + '\n');
-  printf("Global final value:");
+  println(expectedValue);
+  printf("Global final value: ");
   char * finalValue = int64ToString(global);
-  printf(finalValue + '\n');
+  println(finalValue);
 
   return 0;
 }

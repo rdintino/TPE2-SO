@@ -32,14 +32,15 @@ typedef struct pipeRecord{
 static pipeRecord pipeList[MAX_PIPES];
 static unsigned int pipesQty = 0;
 
-uint64_t get_pipe_info(pipesInfo * info);
-
-int create_pipe_available();
-int create_pipe(unsigned int pipe_id);
-
-void destroy_pipe(unsigned int pipe_id);
-int read_from_pipe(unsigned int pipe_id, char * dest, unsigned int count);
-int write_to_pipe(unsigned int pipe_id, const char * src, unsigned int count);
+int createPipe(unsigned int ID);
+uint64_t getPipeInfo(pipesInfo * info);
+int findPipe(unsigned int ID);
+int findAvailablePipe();
+int createAvailablePipe();
+void destroyPipe(unsigned int ID);
+int readFromPipe(unsigned int ID, char * dest, unsigned int count);
+int writeToPipe(unsigned int ID, const char * src, unsigned int count);
+uint64_t getPipeInfo(pipesInfo * info);
 
 
 

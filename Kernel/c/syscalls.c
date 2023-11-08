@@ -1,4 +1,4 @@
-#include <syscalls.h>
+#include "../include/syscalls.h"
 
 void sys_write(char * string, int row, int col, int color){
     if(row == -1 || col == -1){
@@ -37,33 +37,64 @@ void sys_draw(int row, int col, int color){
     putPixel(row, col, color);
 }
 
-uint64_t sysAlloc(uint64_t len) {
-	return (uint64_t) mm_malloc(len);
+void sys_alloc(uint64_t len) {
+	(uint64_t) mm_malloc(len);
 }
 
-uint64_t sysDestroyPipe(unsigned int pipe_id){
-	destroy_pipe(pipe_id);
-	return 1;
+void sys_destroy_pipe(unsigned int pipeID){
+	destroyPipe(pipeID);
 }
 
-uint64_t sysPipeInfo(pipes_info * info){
-	return get_pipe_info(info);
+void sys_pipe_info(pipesInfo * info){
+	getPipeInfo(info);
 }
 
-uint64_t sysReadPipe(unsigned int pipe_id, char * dest, unsigned int count){
-	return read_from_pipe(pipe_id, dest, count);
+void sys_read_pipe(unsigned int pipeID, char * dest, unsigned int count){
+	readFromPipe(pipeID, dest, count);
 }
 
-uint64_t sysRegisterPipeAvailable(){
-	return create_pipe_available();
+void sys_register_pipe_available(){
+	createAvailablePipe();
 }
 
-uint64_t sysRegisterPipe(unsigned int pipe_id){
-	return create_pipe(pipe_id);
+void sys_register_pipe(unsigned int pipeID){
+	createPipe(pipeID);
 }
 
-uint64_t sysWritePipe(unsigned int pipe_id, const char * src, unsigned int count){
-	return write_to_pipe(pipe_id, src, count);
+void sys_write_pipe(unsigned int pipeID, const char * src, unsigned int count){
+	writeToPipe(pipeID, src, count);
+}
+
+void sys_wait_sem(unsigned int ID){
+    waitSemaphore(ID);
+}
+
+void sys_signal_sem(unsigned int ID){
+    signalSemaphore(ID);
+}
+
+void sys_destroy_sem(unsigned int ID){
+    destroySemaphore(ID);
+}
+
+void sys_register_sem(unsigned int ID, unsigned int value){
+    createSemaphore(ID, value);
+}
+
+void sys_register_sem_available(unsigned int value){
+    makeSemaphoreAvailable(value);
+}
+
+void sys_register_child_process(uint64_t entryPoint, uint8_t input, uint8_t output, char ** arg0){
+    addChildTask(entryPoint, input, output, arg0);
+}
+
+void sys_wait_children(){
+    waitChildren();
+}
+
+void sys_get_pid(){
+    getCurrentPID();
 }
 
 
