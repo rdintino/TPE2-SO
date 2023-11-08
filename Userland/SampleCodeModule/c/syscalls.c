@@ -36,22 +36,54 @@ uint64_t alloc(int len){
     return _syscall(SYS_ALLOC,len);
 }
 
-void destroy_pipe( int pipe_id){
-    _syscall(SYS_DESTROY_PIPE,pipe_id);
+void destroyPipe( int pipeID){
+    _syscall(SYS_DESTROY_PIPE, pipeID);
 }
 
-uint64_t pipe_info(pipes_info * info){
-    return _syscall(SYS_PIPE_INFO,info);
+uint64_t pipeInfo(pipes_info * info){
+    return _syscall(SYS_PIPE_INFO, info);
 }
 
-uint64_t read_pipe(int pipe_id, char * dest, int count){
-    return _syscall(SYS_READ_PIPE,pipe_id,dest,count);
+uint64_t readPipe(int pipeID, char * dest, int count){
+    return _syscall(SYS_READ_PIPE, pipeID, dest, count);
 }
 
-uint64_t register_pipe_available(){
+uint64_t registerPipeAvailable(){
     return _syscall(SYS_REGISTER_PIPE_AVAILABLE);
 }
 
-uint64_t write_pipe(int pipe_id, const char * src, int count){
-    return _syscall(SYS_WRITE_PIPE,pipe_id,src,count);
+uint64_t writePipe(int pipeID, const char * src, int count){
+    return _syscall(SYS_WRITE_PIPE, pipeID, src, count);
+}
+
+uint64_t waitSemaphore(uint64_t semID){
+    return _syscall(SYS_WAIT_SEM, semID);
+}
+
+uint64_t signalSemaphore(uint64_t semID){
+    return _syscall(SYS_SIGNAL_SEM, semID);
+}
+
+uint64_t destroySemaphore(uint64_t semID){
+    return _syscall(SYS_DESTROY_SEM, semID);
+}
+
+uint64_t registerSemaphore(uint64_t semID, unsigned int value){
+    return _syscall(SYS_REGISTER_SEM, semID, value);
+}
+
+uint64_t registerSemaphoreAvailable(unsigned int value){
+    return _syscall(SYS_REGISTER_SEM_AVAILABLE, value);
+}
+
+uint64_t registerChildProcess(uint64_t entryPoint, uint8_t input, uint8_t output, uint64_t arg0){
+    return _syscall(SYS_REGISTER_CHILD_PROCESS, entryPoint, input, output, arg0);
+}
+
+uint64_t waitChildren(){
+    return _syscall(SYS_WAIT_CHILDREN);
+}
+
+uint64_t getPid(){
+    return _syscall(SYS_GET_PID);
 }

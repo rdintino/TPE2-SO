@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <colors.h>
 #include <string.h>
+#include <stdio.h>
+#include <inttypes.h>
 
 #define DEFAULT_COLOR 0xFFFFFF //WHITE
 
@@ -21,5 +23,5 @@ void deleteChar();
 void scanf(char *buffer, int bufferSize);
 void printTime(date currentDate);
 int getRandomSign();  
-
+char* int64ToString(int64_t num);
 #endif

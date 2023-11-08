@@ -81,3 +81,12 @@ int getRandomSign() {
     seed = (seed * 1103515245 + 12345) % 2147483648;     // Generación del número pseudoaleatorio
     return (seed % 2 == 0) ? 1 : -1;    // Devuelve 1 si es par, -1 si es impar
 }
+
+char* int64ToString(int64_t num) {
+    char* str = (char*)malloc(21); // 20 digits for the number, 1 for null-terminator
+    if (str == NULL) {
+        return NULL;
+    }
+    snprintf(str, 21, "%" PRId64, num);
+    return str;
+}

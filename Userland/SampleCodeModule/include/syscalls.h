@@ -3,7 +3,9 @@
 
 #include <stdint.h>
 #include <date.h>
-#include "data_types.h"
+#include <data_types.h>
+
+#define BACKGROUND 0
 
 #define SYS_READ 0
 #define SYS_WRITE 1
@@ -21,6 +23,16 @@
 #define SYS_REGISTER_PIPE_AVAILABLE 12
 #define SYS_WRITE_PIPE 13
 
+#define SYS_WAIT_SEM 14
+#define SYS_SIGNAL_SEM 15
+#define SYS_DESTROY_SEM 16
+#define SYS_REGISTER_SEM 17
+#define SYS_REGISTER_SEM_AVAILABLE 18
+
+#define SYS_REGISTER_CHILD_PROCESS 19
+#define SYS_WAIT_CHILDREN 20
+
+#define SYS_GET_PID 21
 extern uint64_t _syscall(uint64_t syscall, ...);
 
 void write(char *string, int row, int col, int color);
@@ -33,10 +45,17 @@ void getRegisters();
 void putPixel(int row, int col, int color);
 
 uint64_t alloc(int len);
-void destroy_pipe( int pipe_id);
-uint64_t pipe_info(pipes_info * info);
-uint64_t read_pipe(int pipe_id, char * dest, int count);
-uint64_t register_pipe_available();
-uint64_t write_pipe(int pipe_id, const char * src, int count);
-
+void destroyPipe( int pipeID);
+uint64_t pipeInfo(pipes_info * info);
+uint64_t readPipe(int pipeID, char * dest, int count);
+uint64_t registerPipeAvailable();
+uint64_t writePipe(int pipeID, const char * src, int count);
+uint64_t waitSemaphore(uint64_t semID);
+uint64_t signalSemaphore(uint64_t semID);
+uint64_t destroySemaphore(uint64_t semID);
+uint64_t registerSemaphore(uint64_t semID, unsigned int value);
+uint64_t registerSemaphoreAvailable(unsigned int value);
+uint64_t registerChildProcess(uint64_t entryPoint, uint8_t input, uint8_t output, uint64_t arg0);
+uint64_t waitChildren();
+uint64_t getPid();
 #endif
