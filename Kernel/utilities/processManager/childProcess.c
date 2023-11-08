@@ -69,7 +69,7 @@ void waitChildren(){
 
 
 unsigned int addChildTask(uint64_t entrypoint, uint8_t input, uint8_t output, char ** arg0){
-	unsigned int childPID = add_task(entrypoint, input, output, DEFAULT_PRIORITY, MORTAL , arg0);
-	addChild(get_current_pid(), childPID);
+	unsigned int childPID = addTask(entrypoint, input, output, DEFAULT_PRIORITY, MORTAL , arg0);
+	addChild(getCurrentPID(), childPID);
 	return childPID;
 }

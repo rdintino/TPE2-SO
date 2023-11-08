@@ -36,4 +36,8 @@ int findSemaphore(unsigned int ID);
 unsigned int waitSemaphore(unsigned int ID);
 int getAvailableSemaphore();
 int makeSemaphoreAvailable(unsigned int value);
+unsigned int signalSemaphore(unsigned int ID);
+unsigned int getSemaphoreBlockedProcess(unsigned int pos, unsigned int * blockedPIDS);
+uint64_t getSemaphoreInfo(semaphoreInfo * info);
+unsigned int getSemaphoreBlockedProcessByID(unsigned int semaphoreID, unsigned int * blockedPIDS);
 #endif

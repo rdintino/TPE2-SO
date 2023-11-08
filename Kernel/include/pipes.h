@@ -6,26 +6,33 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <types.h>
+#include <lib.h>
 
+#define MAX_PIPES 20
+#define PIPE_SIZE 1024
+#define NULL 0
+#define INITIAL_PIPE 10 
 #define INVALID_PIPE_ID -1
 #define EOF -1
 
+typedef struct pipeRecord{
+	unsigned int pipeID;
 
-typedef struct pipe_record{
-	unsigned int pipe_id;
+	int readSemID;
+	int writeSemID;
 
-	int read_sem_id;
-	int write_sem_id;
-
-	unsigned int write_pos;
-	unsigned int read_pos;
+	unsigned int writePos;
+	unsigned int readPos;
 	uint8_t * pipe;
-	unsigned int amount;
+	unsigned int qty;
 
 	uint8_t eof;
-}pipe_record;
+}pipeRecord;
 
-uint64_t get_pipe_info(pipes_info * info);
+static pipeRecord pipeList[MAX_PIPES];
+static unsigned int pipesQty = 0;
+
+uint64_t get_pipe_info(pipesInfo * info);
 
 int create_pipe_available();
 int create_pipe(unsigned int pipe_id);

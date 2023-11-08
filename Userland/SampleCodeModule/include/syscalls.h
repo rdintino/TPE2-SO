@@ -6,6 +6,9 @@
 #include <data_types.h>
 
 #define BACKGROUND 0
+#define STDIN 1
+#define STDOUT 1
+#define STDERR 2
 
 #define SYS_READ 0
 #define SYS_WRITE 1

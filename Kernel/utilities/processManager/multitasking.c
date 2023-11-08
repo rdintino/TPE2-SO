@@ -227,7 +227,7 @@ uint64_t nextTask(uint64_t stackPointer, uint64_t stackSegment){
 }
 
 
-int getProcessInfo(process_info * info){
+int getProcessInfo(processInfo * info){
 	int j=0;
 	for(int i=0; i<TOTAL_TASKS; i++){
 		if(tasks[i].state != DEAD_PROCESS){
@@ -235,7 +235,7 @@ int getProcessInfo(process_info * info){
 			if(tasks[i].params !=NULL){
 				info[j].name = tasks[i].params[0];		
 			}
-			info[j].id = tasks[i].PID;
+			info[j].ID = tasks[i].PID;
 			info[j].state = tasks[i].state;
 			info[j].priority = tasks[i].priority;
 			info[j].stack = (uint64_t) tasks[i].stackStart;

@@ -121,3 +121,41 @@ unsigned int signalSemaphore(unsigned int ID){
 	unlock(&(semaphoreList[pos].lock));
 	return true;
 }
+
+unsigned int getSemaphoreBlockedProcess(unsigned int pos, unsigned int * blockedPIDS){
+	if(pos >= MAX_SEM){
+		return 0;
+	}
+
+	if(getQueueSize(&(semaphoreList[pos].queue)) > 0){
+		unsigned int pos;
+		queueIterator(&(semaphoreList[pos].queue), &pos);
+		int j = 0;
+		for( ;queueHasNext(&(semaphoreList[pos].queue), &pos); j++ ){
+			blockedPIDS[j] = (unsigned int) queueNext(&(semaphoreList[pos].queue), &pos);
+		}
+		return j;
+	}
+	return 0;
+}
+
+uint64_t getSemaphoreInfo(semaphoreInfo * info){
+	int j = 0;
+	for(int i = 0; i < MAX_SEM; i++){
+		if(semaphoreList[i].ID != 0){
+			info[j].ID = semaphoreList[i].ID;
+			info[j].value = semaphoreList[i].value;
+			info[j].numBlocked = getSemaphoreBlockedProcess(i, info[j].blockedPIDS);
+			j++;
+		}
+	}
+	return j;
+}
+
+unsigned int getSemaphoreBlockedProcessByID(unsigned int semaphoreID, unsigned int * blockedPIDS){
+	int pos = findSemaphore(semaphoreID);
+	if(pos == INVALID_SEM_ID_ERROR)
+		return INVALID_SEM_ID_ERROR;
+
+	return getSemaphoreBlockedProcess((unsigned int)pos, blockedPIDS);
+}

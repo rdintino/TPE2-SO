@@ -1,169 +1,177 @@
-#include "../include/pipes.h"
+#include <pipes.h>
 
-#define MAX_PIPES 20
-#define PIPE_SIZE 1024
-#define NULL 0
-#define INITIAL_PIPE 10 
-
-static pipe_record pipe_info[MAX_PIPES];
-static unsigned int num_pipes = 0;
-
-int create_pipe(unsigned int pipe_id){
-	if(pipe_id == 0)				
+int createPipe(unsigned int ID){
+	if(ID == 0)				
 		return INVALID_PIPE_ID;
-	if(num_pipes == MAX_PIPES)
+	if(pipesQty == MAX_PIPES)
 		return NO_SPACE_ERROR;
 
 	int freePos = -1;
-	for(int i=0; i<MAX_PIPES; i++){
-		if(freePos == -1 && pipe_info[i].pipe_id == 0){
+	for(int i = 0; i < MAX_PIPES; i++){
+		if(freePos == -1 && pipeList[i].pipeID == 0){
 			freePos = i;
 		}
-		if(pipe_info[i].pipe_id == pipe_id){
+		if(pipeList[i].pipeID == ID){
 			return INVALID_PIPE_ID;
 		}
 	}
-	int sem_id1 = create_sem_available(0);
-	int sem_id2 = create_sem_available(PIPE_SIZE);
-	if(sem_id1 == INVALID_SEM_ID_ERROR || sem_id2 == INVALID_SEM_ID_ERROR){
-		destroy_sem(sem_id1);
-		destroy_sem(sem_id2);
+	int semID1 = sem(0);
+	int semID2 = makeSemaphoreAvailable(PIPE_SIZE);
+	if(semID1 == INVALID_SEM_ID_ERROR || semID2 == INVALID_SEM_ID_ERROR){
+		destroySemaphore(semID1);
+		destroySemaphore(semID2);
 		return NO_SPACE_ERROR;
 	}
 
-	pipe_info[freePos].pipe = mm_malloc(PIPE_SIZE);
-	if(pipe_info[freePos].pipe == NULL){
-		destroy_sem(sem_id1);
-		destroy_sem(sem_id2);
+	pipeList[freePos].pipe = mm_malloc(PIPE_SIZE);
+	if(pipeList[freePos].pipe == NULL){
+		destroySemaphore(semID1);
+		destroySemaphore(semID2);
 		return NO_SPACE_ERROR;
 	}
-	pipe_info[freePos].pipe_id = pipe_id;
-	pipe_info[freePos].read_sem_id  = sem_id1;
-	pipe_info[freePos].write_sem_id  = sem_id2;
-	pipe_info[freePos].write_pos = 0;
-	pipe_info[freePos].read_pos = 0;
-	pipe_info[freePos].amount = 0;
-	pipe_info[freePos].eof = 0;
+	pipeList[freePos].pipeID = ID;
+	pipeList[freePos].readSemID  = semID1;
+	pipeList[freePos].writeSemID  = semID2;
+	pipeList[freePos].writePos = 0;
+	pipeList[freePos].readPos = 0;
+	pipeList[freePos].qty = 0;
+	pipeList[freePos].eof = 0;
 
-	num_pipes++;
+	pipesQty++;
 	return DONE;
 }
 
-uint64_t get_pipe_info(pipes_info * info){
+uint64_t getPipeInfo(pipesInfo * info){
 	int j = 0;
-	for(int i=0; i<MAX_PIPES; i++){
-		if(pipe_info[i].pipe_id != 0){
-			info[j].id = pipe_info[i].pipe_id;
-			info[j].usage = pipe_info[i].amount;
+	for(int i = 0; i < MAX_PIPES; i++){
+		if(pipeList[i].pipeID != 0){
+			info[j].ID = pipeList[i].pipeID;
+			info[j].usage = pipeList[i].qty;
 			j++;
 		}
 	}
 	return j;
 }
 
-int find_pipe(unsigned int pipe_id){
-	for(int i=0; i<MAX_PIPES; i++){
-		if(pipe_info[i].pipe_id == pipe_id){
+int findPipe(unsigned int ID){
+	for(int i = 0; i < MAX_PIPES; i++){
+		if(pipeList[i].pipeID == ID){
 			return i;
 		}
 	}
 	return INVALID_PIPE_ID;
 }
 
-int find_available_pipe_id(){
-	if(num_pipes == MAX_PIPES)
+int findAvailablePipe(){
+	if(pipesQty == MAX_PIPES)
 		return NO_SPACE_ERROR;
 
 	uint8_t found = false;
-	int pipe_id = 0;
+	int pipeID = 0;
 
 	while(!found){
 		found = true;
-		for(int i=0; i<MAX_PIPES; i++){
-			if(pipe_info[i].pipe_id == pipe_id){
+		for(int i = 0; i < MAX_PIPES; i++){
+			if(pipeList[i].pipeID == pipeID){
 				found = false;
-				pipe_id++;
+				pipeID++;
 				break;
 			}
 		}
 	}
-	return pipe_id;
+	return pipeID;
 }
 
-int create_pipe_available(){
-	int id = find_available_pipe_id();
+int createAvailablePipe(){
+	int ID = findAvailablePipe();
 
-	if(id == NO_SPACE_ERROR){
+	if(ID == NO_SPACE_ERROR){
 		return NO_SPACE_ERROR;
 	}
 
-	if( create_pipe(id) != DONE){
+	if( createPipe(ID) != DONE){
 		return NO_SPACE_ERROR;
 	}
-	return id;
+	return ID;
 }
 
-void destroy_pipe(unsigned int pipe_id){
-	int pos = find_pipe(pipe_id);
-	if(pos == INVALID_PIPE_ID)
+void destroyPipe(unsigned int ID){
+	int pos = findPipe(ID);
+	if(pos == INVALID_PIPE_ID){
 		return;
-	destroy_sem(pipe_info[pos].write_sem_id);	
-	destroy_sem(pipe_info[pos].read_sem_id);
-	mm_free(pipe_info[pos].pipe);
+	}
+	destroySemaphore(pipeList[pos].writeSemID);	
+	destroySemaphore(pipeList[pos].readSemID);
+	mm_free(pipeList[pos].pipe);
 
-	pipe_info[pos].read_sem_id  = 0;
-	pipe_info[pos].write_sem_id  = 0;
-	pipe_info[pos].pipe_id = 0;
-	pipe_info[pos].write_pos = 0;
-	pipe_info[pos].read_pos = 0;
-	pipe_info[pos].amount = 0;
-	pipe_info[pos].pipe = 0;
+	pipeList[pos].readSemID  = 0;
+	pipeList[pos].writeSemID  = 0;
+	pipeList[pos].pipeID = 0;
+	pipeList[pos].writePos = 0;
+	pipeList[pos].readPos = 0;
+	pipeList[pos].qty = 0;
+	pipeList[pos].pipe = 0;
 
-	num_pipes--;
+	pipesQty--;
 }
 
-void signal_eof(unsigned int pipe_id){
-	int pos = find_pipe(pipe_id);
-	if(pos == INVALID_PIPE_ID)
+void signalEOF(unsigned int ID){
+	int pos = findPipe(ID);
+	if(pos == INVALID_PIPE_ID){
 		return;
+	}
 
-	pipe_info[pos].eof = 1;
+	pipeList[pos].eof = 1;
 }
 
-int read_from_pipe(unsigned int pipe_id, char * dest, unsigned int count){
-	int pos = find_pipe(pipe_id);
-	if(pos == INVALID_PIPE_ID)
+int readFromPipe(unsigned int ID, char * dest, unsigned int count){
+	int pos = findPipe(ID);
+	if(pos == INVALID_PIPE_ID){
 		return INVALID_PIPE_ID;
-
-	if(pipe_info[pos].eof && pipe_info[pos].amount == 0){
+	}
+	if(pipeList[pos].eof && pipeList[pos].qty == 0){
 		return EOF;
 	}
-	int i=0;	
-	for(; i<count && !(pipe_info[pos].eof && pipe_info[pos].amount == 0); i++){
-		wait_sem(pipe_info[pos].read_sem_id);
+	int i = 0;	
+	for(; i < count && !(pipeList[pos].eof && pipeList[pos].qty == 0); i++){
+		waitSemaphore(pipeList[pos].readSemID);
 
-		dest[i] = pipe_info[pos].pipe[pipe_info[pos].read_pos];
-		INCREASE_MOD(pipe_info[pos].read_pos, PIPE_SIZE);
-		pipe_info[pos].amount--;
+		dest[i] = pipeList[pos].pipe[pipeList[pos].readPos];
+		INCREASE_MOD(pipeList[pos].readPos, PIPE_SIZE);
+		pipeList[pos].qty--;
 
-		signal_sem(pipe_info[pos].write_sem_id);
+		signalSemaphore(pipeList[pos].writeSemID);
 	}
 	return i;
 }
 
-int write_to_pipe(unsigned int pipe_id, const char * src, unsigned int count){
-	int pos = find_pipe(pipe_id);
+int writeToPipe(unsigned int ID, const char * src, unsigned int count){
+	int pos = findPipe(ID);
 	if(pos == INVALID_PIPE_ID)
 		return INVALID_PIPE_ID;
 
 	for(int i=0; i<count; i++){
-		wait_sem(pipe_info[pos].write_sem_id);
+		waitSemaphore(pipeList[pos].writeSemID);
 
-		pipe_info[pos].pipe[pipe_info[pos].write_pos] = src[i];
-		INCREASE_MOD(pipe_info[pos].write_pos, PIPE_SIZE);
-		pipe_info[pos].amount++;
+		pipeList[pos].pipe[pipeList[pos].writePos] = src[i];
+		INCREASE_MOD(pipeList[pos].writePos, PIPE_SIZE);
+		pipeList[pos].qty++;
 
-		signal_sem(pipe_info[pos].read_sem_id);
+		signalSemaphore(pipeList[pos].readSemID);
 	}
 	return count;
+}
+
+uint64_t getPipeInfo(pipesInfo * info){
+	int j = 0;
+	for(int i = 0; i < MAX_PIPES; i++){
+		if(pipeList[i].pipeID != 0){
+			info[j].ID = pipeList[i].pipeID;
+			info[j].usage = pipeList[i].qty;
+			info[j].readNumBlocked = getSemaphoreBlockedProcessByID(pipeList[i].readSemID, info[j].readBlockedPIDS);
+			info[j].writeNumBlocked = getSemaphoreBlockedProcessByID(pipeList[i].writeSemID, info[j].writeBlockedPIDS);
+			j++;
+		}
+	}
+	return j;
 }
