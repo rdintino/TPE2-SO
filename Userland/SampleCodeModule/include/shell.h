@@ -31,7 +31,7 @@ void time();
 void pong();
 void infoReg();
 void clear();
-void test_mm();
-void test_processes();
+uint64_t test_mm(uint64_t argc, char *argv[]);
+void test_processes(uint64_t argc, char *argv[])
 
 #endif

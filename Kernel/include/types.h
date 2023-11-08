@@ -23,4 +23,11 @@ typedef struct pipes_info{
 	unsigned int write_blocked_pids[10];
 }pipes_info;
 
+typedef struct semaphore_info{
+	unsigned int id;
+	unsigned int value;
+	unsigned int num_blocked;
+	unsigned int blocked_pids[10];
+}semaphore_info;
+
 #endif
