@@ -2,8 +2,8 @@
 #define TESTUTILS_H
 
 #include <stdint.h>
-#include <stdio.h>
 #include "../include/syscalls.h"
+#include <libIO.h>
 
 uint32_t getUint();
 uint32_t getUniform(uint32_t max);

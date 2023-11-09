@@ -32,7 +32,7 @@ void pong();
 void infoReg();
 void clear();
 uint64_t test_mm(uint64_t argc, char *argv[]);
-void test_processes(uint64_t argc, char *argv[]);
+uint64_t testProcesses(uint64_t argc, char *argv[]);
 void mem();
 
 void ps();

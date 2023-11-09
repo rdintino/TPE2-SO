@@ -2,7 +2,6 @@
 #define TEST_SYNC_H
 
 #include <stdint.h>
-#include <stdio.h>
 #include <syscalls.h>
 #include <testUtils.h>
 #include <shell.h>

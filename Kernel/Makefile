@@ -6,12 +6,17 @@ SOURCES_ASM=$(wildcard asm/*.asm)
 SOURCES_DRIVERS=$(wildcard drivers/*.c)
 SOURCES_IDT=$(wildcard idt/*.c)
 SOURCES_C=$(wildcard c/*.c)
+SOURCES_MEMORYMANAGER=$(wildcard utilities/memoryManager/*.c)
+SOURCES_PROCESSMANAGER=$(wildcard utilities/processManager/*.c)
+
 
 OBJECTS=$(SOURCES:.c=.o)
 OBJECTS_ASM=$(SOURCES_ASM:.asm=.o)
 OBJECTS_DRIVERS=$(SOURCES_DRIVERS:.c=.o)
 OBJECTS_IDT=$(SOURCES_IDT:.c=.o)
 OBJECTS_C=$(SOURCES_C:.c=.o)
+OBJECTS_MEMORYMANAGER=$(SOURCES_MEMORYMANAGER:.c=.o)
+OBJECTS_PROCESSMANAGER=$(SOURCES_PROCESSMANAGER:.c=.o)
 LOADERSRC=loader.asm 
 
 LOADEROBJECT=$(LOADERSRC:.asm=.o)
@@ -19,8 +24,8 @@ STATICLIBS=
 
 all: $(KERNEL)
 
-$(KERNEL): $(LOADEROBJECT) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM) $(OBJECTS_DRIVERS) $(OBJECTS_IDT) $(OBJECTS_C)
-	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS) $(OBJECTS_ASM) $(STATICLIBS) $(OBJECTS_DRIVERS) $(OBJECTS_IDT) $(OBJECTS_C)
+$(KERNEL): $(LOADEROBJECT) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM) $(OBJECTS_DRIVERS) $(OBJECTS_IDT) $(OBJECTS_C) $(OBJECTS_MEMORYMANAGER) $(OBJECTS_PROCESSMANAGER)
+	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS) $(OBJECTS_ASM) $(STATICLIBS) $(OBJECTS_DRIVERS) $(OBJECTS_IDT) $(OBJECTS_C) $(OBJECTS_MEMORYMANAGER) $(OBJECTS_PROCESSMANAGER) 
 
 %.o: %.c
 	$(GCC) $(GCCFLAGS) -I./include -c $< -o $@
@@ -32,6 +37,6 @@ $(LOADEROBJECT):
 	$(ASM) $(ASMFLAGS) $(LOADERSRC) -o $(LOADEROBJECT)
 
 clean:
-	rm -rf asm/*.o *.o *.bin drivers/*.o idt/*.o c/*.o
+	rm -rf asm/*.o *.o *.bin drivers/*.o idt/*.o c/*.o utilities/memoryManager/*.o utilities/processManager/*.o 
 
 .PHONY: all clean

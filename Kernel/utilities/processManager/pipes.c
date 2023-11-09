@@ -15,7 +15,7 @@ int createPipe(unsigned int ID){
 			return INVALID_PIPE_ID;
 		}
 	}
-	int semID1 = sem(0);
+	int semID1 = makeSemaphoreAvailable(0);
 	int semID2 = makeSemaphoreAvailable(PIPE_SIZE);
 	if(semID1 == INVALID_SEM_ID_ERROR || semID2 == INVALID_SEM_ID_ERROR){
 		destroySemaphore(semID1);
@@ -41,17 +41,6 @@ int createPipe(unsigned int ID){
 	return DONE;
 }
 
-uint64_t getPipeInfo(pipesInfo * info){
-	int j = 0;
-	for(int i = 0; i < MAX_PIPES; i++){
-		if(pipeList[i].pipeID != 0){
-			info[j].ID = pipeList[i].pipeID;
-			info[j].usage = pipeList[i].qty;
-			j++;
-		}
-	}
-	return j;
-}
 
 int findPipe(unsigned int ID){
 	for(int i = 0; i < MAX_PIPES; i++){
@@ -124,7 +113,7 @@ void signalEOF(unsigned int ID){
 	pipeList[pos].eof = 1;
 }
 
-int readFromPipe(unsigned int ID, char * dest, unsigned int count){
+int readFromPipe(unsigned int ID, char * buffer, unsigned int count){
 	int pos = findPipe(ID);
 	if(pos == INVALID_PIPE_ID){
 		return INVALID_PIPE_ID;
@@ -136,7 +125,7 @@ int readFromPipe(unsigned int ID, char * dest, unsigned int count){
 	for(; i < count && !(pipeList[pos].eof && pipeList[pos].qty == 0); i++){
 		waitSemaphore(pipeList[pos].readSemID);
 
-		dest[i] = pipeList[pos].pipe[pipeList[pos].readPos];
+		buffer[i] = pipeList[pos].pipe[pipeList[pos].readPos];
 		INCREASE_MOD(pipeList[pos].readPos, PIPE_SIZE);
 		pipeList[pos].qty--;
 
@@ -145,7 +134,7 @@ int readFromPipe(unsigned int ID, char * dest, unsigned int count){
 	return i;
 }
 
-int writeToPipe(unsigned int ID, const char * src, unsigned int count){
+int writeToPipe(unsigned int ID, const char * buffer, unsigned int count){
 	int pos = findPipe(ID);
 	if(pos == INVALID_PIPE_ID)
 		return INVALID_PIPE_ID;
@@ -153,7 +142,7 @@ int writeToPipe(unsigned int ID, const char * src, unsigned int count){
 	for(int i=0; i<count; i++){
 		waitSemaphore(pipeList[pos].writeSemID);
 
-		pipeList[pos].pipe[pipeList[pos].writePos] = src[i];
+		pipeList[pos].pipe[pipeList[pos].writePos] = buffer[i];
 		INCREASE_MOD(pipeList[pos].writePos, PIPE_SIZE);
 		pipeList[pos].qty++;
 

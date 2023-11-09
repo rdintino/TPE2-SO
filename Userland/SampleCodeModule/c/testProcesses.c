@@ -3,7 +3,6 @@
 #include "../include/testUtils.h"
 #include "../include/shell.h"
 
-
 enum State { RUNNING,
              BLOCKED,
              KILLED };
@@ -13,7 +12,7 @@ typedef struct P_rq {
   enum State state;
 } p_rq;
 
-void testProcesses(uint64_t argc, char *argv[]){
+uint64_t testProcesses(uint64_t argc, char *argv[]){
   uint8_t rq;
   uint8_t alive = 0;
   uint8_t action;

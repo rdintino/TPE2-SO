@@ -92,6 +92,6 @@ uint64_t pauseProcess(unsigned int pid){
     return _syscall(SYS_PAUSE_PROCESS,(uint64_t) pid,NULL,NULL, NULL );
 }
 
-uint64_t skillProcess(unsigned int pid){
+uint64_t killProcess(unsigned int pid){
     return _syscall(SYS_KILL_PROCESS,(uint64_t) pid, NULL,NULL, NULL );
 }

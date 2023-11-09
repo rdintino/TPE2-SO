@@ -83,10 +83,30 @@ int getRandomSign() {
 }
 
 char* int64ToString(int64_t num) {
-    char* str = (char*)malloc(21); // 20 digits for the number, 1 for null-terminator
-    if (str == NULL) {
+    char* buffer = (char*)alloc(21); // 20 digits for the number, 1 for null-terminator
+    if (buffer == NULL) {
         return NULL;
     }
-    snprintf(str, 21, "%" PRId64, num);
-    return str;
+    if(num==0) {
+        buffer[0] = '0';
+        buffer[1] = 0;
+        return buffer;
+    }
+    int i = 0;
+    while(num > 0) {
+        buffer[i++] = num % 10 + '0';
+        num /= 10;
+    }
+    reverseString(buffer, i);
+    buffer[i] = 0;
+    return buffer;
+}
+
+void reverseString(char * string, int length) {
+    char aux;
+    for(int i = 0, j = length - 1; i < j ; i++, j--) {
+        aux = string[i];
+        string[i] = string[j];
+        string[j] = aux;
+    }
 }

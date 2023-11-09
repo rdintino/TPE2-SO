@@ -27,7 +27,7 @@ uint64_t test_mm(uint64_t argc, char *argv[]) {
     rq = 0;
     total = 0;
 
-    puts("testMm: Allocating memory...\n");
+    printf("testMm: Allocating memory...\n");
 
     // Request as many blocks as we can
     while (rq < MAX_BLOCKS && total < max_memory) {
@@ -59,6 +59,6 @@ uint64_t test_mm(uint64_t argc, char *argv[]) {
       if (mm_rqs[i].address)
          // free(mm_rqs[i].address); falta implementar syscall de free
 
-    puts("testMm OK\n");
+    printf("testMm OK\n");
   }
 }

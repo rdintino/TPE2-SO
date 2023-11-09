@@ -9,7 +9,7 @@ modules module[] = {
     {"inforeg", "       -    Displays the registers state", infoReg},
     {"clear", "         -    Clears the screen", clear},
     {"testMm","         -    Test memory manager", test_mm},
-    {"testProcess","    -    Test process management",test_processes}
+    {"testProcess","    -    Test process management",testProcesses}
 };
 
 static char *starter = "$> ";

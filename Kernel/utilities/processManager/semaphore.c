@@ -1,4 +1,4 @@
-#include "./include/semaphore.h"
+#include "../include/semaphore.h"
 
 int createSemaphore(unsigned int ID, unsigned int value){
 	if(ID == 0){

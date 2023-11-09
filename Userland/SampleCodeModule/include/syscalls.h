@@ -4,9 +4,10 @@
 #include <stdint.h>
 #include <date.h>
 #include <types.h>
+#include <stddef.h>
 
 #define BACKGROUND 0
-#define STDIN 1
+#define STDIN 0
 #define STDOUT 1
 #define STDERR 2
 
@@ -64,4 +65,6 @@ uint64_t registerSemaphoreAvailable(unsigned int value);
 uint64_t registerChildProcess(uint64_t entryPoint, uint8_t input, uint8_t output, uint64_t arg0);
 uint64_t waitChildren();
 uint64_t getPID();
+uint64_t killProcess(unsigned int pid);
+uint64_t pauseProcess(unsigned int pid);
 #endif

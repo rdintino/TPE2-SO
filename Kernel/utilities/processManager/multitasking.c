@@ -85,7 +85,7 @@ int addTask(uint64_t entrypoint, uint8_t input, uint8_t output, uint8_t priority
 	if(stackEnd == NULL)
 		return ERROR_NO_SPACE_FOR_TASK;
 
-	uint8_t * stackStart = (uint8_t *) build_stack(entrypoint, arg0, (uint64_t) stackEnd);
+	uint8_t * stackStart = (uint8_t *) buildStack(entrypoint, arg0, (uint64_t) stackEnd);
 
 	// Task initialization
 	tasks[pos].stackPointer = (uint64_t) stackStart - STACK_POINT_OF_ENTRY; 
