@@ -97,5 +97,10 @@ void sys_get_pid(){
     getCurrentPID();
 }
 
+void sys_pause_process(unsigned int pid){
+    pauseOrUnpauseProcess(pid);
+}
 
-
+void sys_kill_process(unsigned int pid){
+    removeTask(pid);
+}

@@ -45,6 +45,8 @@ int findTask(unsigned int PID){
 }
 
 
+
+
 uint64_t buildStack(uint64_t entrypoint, char ** arg0, uint64_t stackEnd){
 	uint64_t stackStart = stackEnd + STACK_SIZE;
 	stackStart -= stackStart % ALINGMENT;
@@ -249,4 +251,20 @@ int getProcessInfo(processInfo * info){
 	return j;
 }
 
+int pauseOrUnpauseProcess(unsigned int pid){
+	int pos = findTask(pid);
+	if(pos < 0)					// trying to pass unexistent process
+		return NO_TASK_FOUND;
 
+	if(tasks[pos].immortal)
+		return TASK_NOT_ALTERED;
+
+	tasks[pos].state = tasks[pos].state==PAUSED_PROCESS ? ACTIVE_PROCESS : PAUSED_PROCESS; 	// paused -> unpaused  
+
+
+	if(pos == currentTask){
+		forceChangeTask();
+	}
+
+	return TASK_ALTERED;
+}

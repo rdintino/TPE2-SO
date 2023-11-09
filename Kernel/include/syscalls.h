@@ -47,6 +47,9 @@
 
 #define SYS_GET_PID 21
 
+#define SYS_PAUSE_PROCESS 22
+#define SYS_KILL_PROCESS 23
+
 void sys_write(char * string, int row, int col, int color);
 void sys_read(char *buffer, int length);
 void sys_clear();

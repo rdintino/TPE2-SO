@@ -87,3 +87,11 @@ uint64_t waitChildren(){
 uint64_t getPID(){
     return _syscall(SYS_GET_PID);
 }
+
+uint64_t pauseProcess(unsigned int pid){
+    return _syscall(SYS_PAUSE_PROCESS,(uint64_t) pid,NULL,NULL, NULL );
+}
+
+uint64_t skillProcess(unsigned int pid){
+    return _syscall(SYS_KILL_PROCESS,(uint64_t) pid, NULL,NULL, NULL );
+}

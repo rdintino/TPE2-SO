@@ -17,22 +17,22 @@ void testProcesses(uint64_t argc, char *argv[]){
   uint8_t rq;
   uint8_t alive = 0;
   uint8_t action;
-  uint64_t max_processes;
+  uint64_t maxProcesses;
   char *argvAux[] = {0};
 
   if (argc != 1)
     return -1;
 
-  if ((max_processes = satoi(argv[0])) <= 0)
+  if ((maxProcesses = satoi(argv[0])) <= 0)
     return -1;
 
-  p_rq p_rqs[max_processes];
+  p_rq p_rqs[maxProcesses];
 
   while (1) {
 
     // Create max_processes processes
-    for (rq = 0; rq < max_processes; rq++) {
-    //   p_rqs[rq].pid = sys_register_child_process("endless_loop", 0, argvAux);  //argumentos ? , falta syscall 
+    for (rq = 0; rq < maxProcesses; rq++) {
+       p_rqs[rq].pid = registerChildProcess((uint64_t)&endlessLoop, 1, 1, (uint64_t) argvAux);
 
       if (p_rqs[rq].pid == -1) {
         printf("test_processes: ERROR creating process\n");
@@ -46,16 +46,16 @@ void testProcesses(uint64_t argc, char *argv[]){
     // Randomly kills, blocks or unblocks processes until every one has been killed
     while (alive > 0) {
 
-      for (rq = 0; rq < max_processes; rq++) {
+      for (rq = 0; rq < maxProcesses; rq++) {
         action = getUniform(100) % 2;
 
         switch (action) {
           case 0:
             if (p_rqs[rq].state == RUNNING || p_rqs[rq].state == BLOCKED) {
-            //   if (sys_kill_process(p_rqs[rq].pid) == -1) {
-            //     printf("test_processes: ERROR killing process\n");
-            //     return -1;
-            //   } falta syscall kill
+              if (killProcess(p_rqs[rq].pid) == -1) {
+                printf("test_processes: ERROR killing process\n");
+                return -1;
+              } 
               p_rqs[rq].state = KILLED;
               alive--;
             }
@@ -63,10 +63,10 @@ void testProcesses(uint64_t argc, char *argv[]){
 
           case 1:
             if (p_rqs[rq].state == RUNNING) {
-            //   if (sys_pause_process(p_rqs[rq].pid) == -1) {
-            //     printf("test_processes: ERROR blocking process\n");
-            //     return -1;
-            //   } falta syscall pause
+              if (pauseProcess(p_rqs[rq].pid) == -1) {
+                printf("test_processes: ERROR blocking process\n");
+                return -1;
+              } 
               p_rqs[rq].state = BLOCKED;
             }
             break;
@@ -74,12 +74,12 @@ void testProcesses(uint64_t argc, char *argv[]){
       }
 
       // Randomly unblocks processes
-      for (rq = 0; rq < max_processes; rq++)
-        if (p_rqs[rq].state == BLOCKED && GetUniform(100) % 2) {
-        //   if (sys_pause_process(p_rqs[rq].pid) == -1) {
-        //     printf("test_processes: ERROR unblocking process\n");
-        //     return -1;
-        //   }   falta syscall pause
+      for (rq = 0; rq < maxProcesses; rq++)
+        if (p_rqs[rq].state == BLOCKED && getUniform(100) % 2) {
+          if (pauseProcess(p_rqs[rq].pid) == -1) {
+            printf("test_processes: ERROR unblocking process\n");
+            return -1;
+          }
           p_rqs[rq].state = RUNNING;
         }
     }

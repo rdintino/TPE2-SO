@@ -34,8 +34,11 @@
 
 #define SYS_REGISTER_CHILD_PROCESS 19
 #define SYS_WAIT_CHILDREN 20
-
 #define SYS_GET_PID 21
+
+#define SYS_PAUSE_PROCESS 22
+#define SYS_KILL_PROCESS 23
+
 extern uint64_t _syscall(uint64_t syscall, ...);
 
 void write(char *string, int row, int col, int color);

@@ -108,4 +108,6 @@ uint8_t enoughTimeLeft();
 uint64_t nextTask(uint64_t stackPointer, uint64_t stackSegment);
 int getProcessInfo(processInfo * info);
 
+int pauseOrUnpauseProcess(unsigned int pid);
+
 #endif
