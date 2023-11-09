@@ -57,10 +57,10 @@ void syscallDispatcher(uint64_t id, uint64_t param1, uint64_t param2, uint64_t p
             sys_register_sem((unsigned int) param1, (unsigned int) param2);
             break;
         case SYS_REGISTER_SEM_AVAILABLE:
-            sys_register_sem_available();
+            sys_register_sem_available((unsigned int) param1);
             break;
         case SYS_REGISTER_CHILD_PROCESS:
-            sys_register_child_process((unsigned int) param1);
+            sys_register_child_process((unsigned int) param1, (uint8_t) param2, (uint8_t) param3, (char**) param4);
             break;
         case SYS_WAIT_CHILDREN:
             sys_wait_children();
@@ -69,10 +69,10 @@ void syscallDispatcher(uint64_t id, uint64_t param1, uint64_t param2, uint64_t p
             sys_get_pid();
             break;  
         case SYS_PAUSE_PROCESS:
-            sys_pause_process();
+            sys_pause_process((unsigned int) param1);
             break;
         case SYS_KILL_PROCESS:
-            sys_kill_process();
+            sys_kill_process((unsigned int) param1);
             break;
     }
 }

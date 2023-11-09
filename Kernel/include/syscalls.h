@@ -8,10 +8,10 @@
 #include <registers.h>
 #include <time.h>
 #include <beeper.h>
-#include <multitasking.h>
-#include <memoryManager.h>
-#include <pipes.h>
-#include <semaphore.h>
+#include "multitasking.h"
+#include "memoryManager.h"
+#include "pipes.h"
+#include "semaphore.h"
 #include <types.h>
 #include <childProcess.h>
 
@@ -58,5 +58,22 @@ void sys_holder(int time);
 void sys_beep(uint32_t beepTime);
 void sys_info_reg();
 void sys_draw(int row, int col, int color);
+void sys_alloc(uint64_t len);
+void sys_destroy_pipe(unsigned int pipeID);
+void sys_pipe_info(pipesInfo * info);
+void sys_read_pipe(unsigned int pipeID, char * dest, unsigned int count);
+void sys_register_pipe_available();
+void sys_register_pipe(unsigned int pipeID);
+void sys_write_pipe(unsigned int pipeID, const char * src, unsigned int count);
+void sys_wait_sem(unsigned int ID);
+void sys_signal_sem(unsigned int ID);
+void sys_destroy_sem(unsigned int ID);
+void sys_register_sem(unsigned int ID, unsigned int value);
+void sys_register_sem_available(unsigned int value);
+void sys_register_child_process(uint64_t entryPoint, uint8_t input, uint8_t output, char ** arg0);
+void sys_wait_children();
+void sys_get_pid();
+void sys_pause_process(unsigned int pid);
+void sys_kill_process(unsigned int pid);
 
 #endif
