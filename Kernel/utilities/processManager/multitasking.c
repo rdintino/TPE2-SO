@@ -21,7 +21,7 @@ uint64_t getRSP(){
 uint64_t getSS(){
 	return tasks[currentTask].stackSegment;
 }
-uint8_t getCurrentOuput(){
+uint8_t getCurrentOutput(){
 	return tasks[currentTask].output;
 }
 uint8_t getCurrentInput(){

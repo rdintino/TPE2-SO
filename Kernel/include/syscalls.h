@@ -8,7 +8,7 @@
 #include <registers.h>
 #include <time.h>
 #include <beeper.h>
-#include "multitasking.h"
+#include <multitasking.h>
 #include "memoryManager.h"
 #include "pipes.h"
 #include "semaphore.h"
@@ -50,8 +50,10 @@
 #define SYS_PAUSE_PROCESS 22
 #define SYS_KILL_PROCESS 23
 
-void sys_write(char * string, int row, int col, int color);
-void sys_read(char *buffer, int length);
+
+void sys_write_to_screen(char *buffer, int row, int col, int color);
+void sys_write(int fd, char *buffer, int row, int col, int color);
+void sys_read(int fd, char *buffer, int length);
 void sys_clear();
 void sys_time();
 void sys_holder(int time);

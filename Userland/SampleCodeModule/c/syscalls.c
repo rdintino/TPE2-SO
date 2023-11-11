@@ -1,11 +1,11 @@
 #include "../include/syscalls.h"
 
-void write(char *string, int row, int col, int color){
-    _syscall(SYS_WRITE, string, row, col, color);
+void write(char *buffer, int row, int col, int color){
+    _syscall(SYS_WRITE, buffer, row, col, color);
 }
 
-void read(char *buffer, int length){
-    _syscall(SYS_READ, buffer, length);
+void read(int fd,char *buffer, int length){
+    _syscall(SYS_READ, fd, buffer, length);
 }
 
 void clearScreen(){

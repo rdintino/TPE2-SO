@@ -1,7 +1,7 @@
 #include <libIO.h>
 
-void printIn(char *string, int row, int col, int color){
-    write(string, row, col, color);
+void printIn(char *buffer, int row, int col, int color){
+    write(buffer, row, col, color);
 }
 
 void printf(char *string){
@@ -24,7 +24,7 @@ void printlnColored(char * string, int color){
 
 char getChar(){
     char c;
-    read(&c, 1);
+    read(STDIN,&c, 1);
     return c;
 }
 

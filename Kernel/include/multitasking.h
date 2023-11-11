@@ -67,9 +67,9 @@ typedef struct process_control_block{
 		uint8_t state;
 		uint8_t priority;				// amount of ticks it has to run
 		uint8_t immortal;				// whether it can or can't be killed/blocked/paused
-
-		uint8_t input;
+		
 		uint8_t output;
+		uint8_t input;
 
 		uint64_t ticks;					// amount of times the scheduler picked it to run
 }process_control_block;
