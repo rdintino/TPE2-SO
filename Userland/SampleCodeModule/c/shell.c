@@ -9,8 +9,9 @@ modules module[] = {
     {"inforeg", "       -    Displays the registers state", infoReg},
     {"clear", "         -    Clears the screen", clear},
     {"testMm","         -    Test memory manager", testMm},
-    {"testProcesses","    -    Test process management",testProcesses},
-    {"testPriorities"," -    Test priorities",testPriorities}
+    {"testProcesses","  -    Test process management",testProcesses},
+    {"testPriorities"," -    Test priorities",testPriorities},
+    {"cat","            -    Writes in console what has been read", cat}
 };
 
 static char *starter = "$> ";
@@ -75,4 +76,11 @@ void infoReg(){
 
 void clear(){
     clearScreen();
+}
+
+void cat(){
+  int c;
+  while ((c = getChar()) != -1) { 
+      putChar(c); 
+  }
 }
