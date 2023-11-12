@@ -1,7 +1,7 @@
 #include "../include/syscalls.h"
 
 void sys_write_to_screen(char *buffer, int row, int col, int color){
-    sys_write(1,buffer,row,col,color);
+    sys_write(getCurrentOutput(),buffer,row,col,color);
 }
 
 void sys_write(int fd, char *buffer, int row, int col, int color){

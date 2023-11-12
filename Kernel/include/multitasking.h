@@ -43,7 +43,7 @@
 										/*		 -=-=STACK=-=-		*/
 #define STACK_POINT_OF_ENTRY (21*8)   	/*  	|	RAX, RBX  |		*/
 										/*  	|	RCX, etc  |		*/   
-#define RDI_POS   (12*8)				/*		---------------		*/ 
+#define RDI_POS   (13*8)				/*		---------------		*/ 
 #define IP_POS    (6*8)					/*  	|	 RIP	  |		*/				
 #define CS_POS 	  (5*8)					/*  	|	  CS	  |		*/
 #define FLAGS_POS (4*8)					/*  	|	 RFLAGS	  |		*/
@@ -97,8 +97,11 @@ unsigned int  getCurrentPID();
 int findTask(unsigned int PID);
 int addTask(uint64_t entrypoint, uint8_t input, uint8_t output, uint8_t priority, uint8_t immortal, char ** arg0);
 void changeState(unsigned int PID, uint8_t new_state);
+void changeStateIf(uint8_t old_state, uint8_t new_state);
 void removeCurrentTask();
 int removeTask(unsigned int PID);
+void killScreenProcesses();
+void pauseScreenProcess(unsigned int screen);
 
 unsigned int changePriority(unsigned int PID, int delta);
 
@@ -107,7 +110,7 @@ void forceChangeTask();
 uint8_t enoughTimeLeft();
 uint64_t nextTask(uint64_t stackPointer, uint64_t stackSegment);
 int getProcessInfo(processInfo * info);
-
+void listProcess();
 int pauseOrUnpauseProcess(unsigned int pid);
 
 #endif

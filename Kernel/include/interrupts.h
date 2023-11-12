@@ -32,6 +32,9 @@ void picMasterMask(uint8_t mask);
 void picSlaveMask(uint8_t mask);
 
 //Termina la ejecución de la cpu.
+
+void forceCurrentTask();
+void forceTimerTick();
 void haltcpu(void);
 
 uint8_t inb(uint32_t);
