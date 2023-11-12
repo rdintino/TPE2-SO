@@ -62,6 +62,10 @@ void sys_alloc(uint64_t len) {
 	(uint64_t) mm_malloc(len);
 }
 
+void sys_free(void * ptr) {
+	mm_free(ptr);
+}
+
 void sys_destroy_pipe(unsigned int pipeID){
 	destroyPipe(pipeID);
 }
@@ -118,10 +122,18 @@ void sys_get_pid(){
     getCurrentPID();
 }
 
+void sys_register_process(uint64_t entrypoint, uint8_t input, uint8_t output, char ** arg0){
+	addTask(entrypoint, input, output, DEFAULT_PRIORITY, MORTAL, arg0);
+}
+
 void sys_pause_process(unsigned int pid){
     pauseOrUnpauseProcess(pid);
 }
 
 void sys_kill_process(unsigned int pid){
     removeTask(pid);
+}
+
+ void sys_nice(uint8_t pid, int delta){
+	 changePriority(pid, delta);
 }

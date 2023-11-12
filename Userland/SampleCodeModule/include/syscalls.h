@@ -21,24 +21,29 @@
 #define SYS_DRAW 7
 
 #define SYS_ALLOC 8
-#define SYS_DESTROY_PIPE 9
-#define SYS_PIPE_INFO 10
-#define SYS_READ_PIPE 11
-#define SYS_REGISTER_PIPE_AVAILABLE 12
-#define SYS_WRITE_PIPE 13
+#define SYS_FREE 9
 
-#define SYS_WAIT_SEM 14
-#define SYS_SIGNAL_SEM 15
-#define SYS_DESTROY_SEM 16
-#define SYS_REGISTER_SEM 17
-#define SYS_REGISTER_SEM_AVAILABLE 18
+#define SYS_DESTROY_PIPE 10
+#define SYS_PIPE_INFO 11
+#define SYS_READ_PIPE 12
+#define SYS_REGISTER_PIPE_AVAILABLE 13
+#define SYS_WRITE_PIPE 14
 
-#define SYS_REGISTER_CHILD_PROCESS 19
-#define SYS_WAIT_CHILDREN 20
-#define SYS_GET_PID 21
+#define SYS_WAIT_SEM 15
+#define SYS_SIGNAL_SEM 16
+#define SYS_DESTROY_SEM 17
+#define SYS_REGISTER_SEM 18
+#define SYS_REGISTER_SEM_AVAILABLE 19
 
-#define SYS_PAUSE_PROCESS 22
-#define SYS_KILL_PROCESS 23
+#define SYS_REGISTER_CHILD_PROCESS 20
+#define SYS_WAIT_CHILDREN 21
+#define SYS_GET_PID 22
+
+#define SYS_REGISTER_PROCESS 23
+#define SYS_PAUSE_PROCESS 24
+#define SYS_KILL_PROCESS 25
+
+#define SYS_NICE 26
 
 extern uint64_t _syscall(uint64_t syscall, ...);
 
@@ -50,7 +55,7 @@ void hold(int time);
 void beep(uint32_t beepTime);
 void getRegisters();
 void putPixel(int row, int col, int color);
-
+uint64_t freeMem(void * ptr);
 uint64_t alloc(int len);
 void destroyPipe( int pipeID);
 uint64_t pipeInfo(pipesInfo * info);
@@ -67,4 +72,5 @@ uint64_t waitChildren();
 uint64_t getPID();
 uint64_t killProcess(unsigned int pid);
 uint64_t pauseProcess(unsigned int pid);
+uint64_t niceProcess(uint8_t pid, int delta);
 #endif

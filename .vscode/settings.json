@@ -3,6 +3,8 @@
         "semaphore.h": "c",
         "memorymanager.h": "c",
         "syscalls.h": "c",
-        "pipes.h": "c"
+        "pipes.h": "c",
+        "testsync.h": "c",
+        "shell.h": "c"
     }
 }

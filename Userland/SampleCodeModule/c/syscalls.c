@@ -36,6 +36,10 @@ uint64_t alloc(int len){
     return _syscall(SYS_ALLOC,len);
 }
 
+uint64_t freeMem(void * ptr){
+    return _syscall(SYS_FREE, (uint64_t) ptr, NULL, NULL, NULL);
+}
+
 void destroyPipe( int pipeID){
     _syscall(SYS_DESTROY_PIPE, pipeID);
 }
@@ -88,10 +92,18 @@ uint64_t getPID(){
     return _syscall(SYS_GET_PID);
 }
 
+uint64_t registerProcess(uint64_t entrypoint, uint8_t input, uint8_t output, uint64_t arg0){
+    return _syscall(SYS_REGISTER_PROCESS, (uint64_t) entrypoint, (uint64_t) input, (uint64_t) output, arg0);
+}
+
 uint64_t pauseProcess(unsigned int pid){
     return _syscall(SYS_PAUSE_PROCESS,(uint64_t) pid,NULL,NULL, NULL );
 }
 
 uint64_t killProcess(unsigned int pid){
     return _syscall(SYS_KILL_PROCESS,(uint64_t) pid, NULL,NULL, NULL );
+}
+
+uint64_t niceProcess(uint8_t pid, int delta){
+    return _syscall(SYS_NICE, pid, delta, NULL, NULL );
 }

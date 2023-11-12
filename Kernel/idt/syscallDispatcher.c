@@ -68,11 +68,17 @@ void syscallDispatcher(uint64_t id, uint64_t param1, uint64_t param2, uint64_t p
         case SYS_GET_PID:
             sys_get_pid();
             break;  
+        case SYS_REGISTER_PROCESS:
+            sys_register_process((unsigned int) param1, (uint8_t) param2, (uint8_t) param3, (char**) param4);
+            break;
         case SYS_PAUSE_PROCESS:
             sys_pause_process((unsigned int) param1);
             break;
         case SYS_KILL_PROCESS:
             sys_kill_process((unsigned int) param1);
+            break;
+        case SYS_NICE:
+			sys_nice(param1, param2);
             break;
     }
 }

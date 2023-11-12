@@ -9,7 +9,7 @@ void slowInc(int64_t *p, int64_t inc) {
   *p = aux;
 }
 
-uint64_t myProcessInc(uint64_t argc, char *argv[]) {
+void myProcessInc(uint64_t argc, char *argv[]) {
   int inc = 1;
 
   int i;
@@ -29,7 +29,7 @@ uint64_t testSync(uint64_t argc, char *argv[]) { //{n, use_sem, 0}
   if(semUse) {
     destroySemaphore(SEM_ID);
     if (registerSemaphore(SEM_ID, 1) != 0) {
-      printf("test_sync: ERROR opening semaphore\n");
+      printf("testSync: Error opening semaphore\n");
       return -1;
     }
   }
@@ -46,7 +46,7 @@ uint64_t testSync(uint64_t argc, char *argv[]) { //{n, use_sem, 0}
   for (i = 0; i < TOTAL_PAIR_PROCESSES; i++) {
     int error = registerChildProcess((uint64_t)&myProcessInc, STDIN, BACKGROUND, (uint64_t) args);
     if (error <= 0 ) {
-      printf("Error creating children");
+      printf("testSync : Error creating children");
     }
   }
 
@@ -56,10 +56,10 @@ uint64_t testSync(uint64_t argc, char *argv[]) { //{n, use_sem, 0}
     destroySemaphore(SEM_ID);
   }
 
-  printf("Global expected value: ");
+  printf("testSync: Global expected value was ");
   char * expectedValue = int64ToString(MAX * TOTAL_PAIR_PROCESSES);
   println(expectedValue);
-  printf("Global final value: ");
+  printf("testSync: Global final value was ");
   char * finalValue = int64ToString(global);
   println(finalValue);
 
