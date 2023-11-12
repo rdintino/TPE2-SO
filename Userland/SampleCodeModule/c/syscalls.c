@@ -1,11 +1,11 @@
 #include "../include/syscalls.h"
 
-void write(char *buffer, int row, int col, int color){
-    _syscall(SYS_WRITE, buffer, row, col, color);
-}
-
 void read(int fd,char *buffer, int length){
     _syscall(SYS_READ, fd, buffer, length);
+}
+
+void write(char *buffer, int row, int col, int color){
+    _syscall(SYS_WRITE, buffer, row, col, color);
 }
 
 void clearScreen(){
@@ -33,31 +33,52 @@ void putPixel(int row, int col, int color){
 }
 
 uint64_t alloc(int len){
-    return _syscall(SYS_ALLOC,len);
+    return _syscall(SYS_ALLOC, len);
 }
 
 uint64_t freeMem(void * ptr){
-    return _syscall(SYS_FREE, (uint64_t) ptr, NULL, NULL, NULL);
+    return _syscall(SYS_FREE, ptr);
 }
 
-void destroyPipe( int pipeID){
-    _syscall(SYS_DESTROY_PIPE, pipeID);
+uint64_t mmStatus(char * buffer){
+    return _syscall(SYS_MM_STATUS, buffer);
 }
 
-uint64_t pipeInfo(pipesInfo * info){
-    return _syscall(SYS_PIPE_INFO, info);
+uint64_t printMem(uint64_t pos, char * buffer){
+    return _syscall(SYS_PRINT_MEM, pos, buffer);
 }
 
-uint64_t readPipe(int pipeID, char * dest, int count){
-    return _syscall(SYS_READ_PIPE, pipeID, dest, count);
+uint64_t registerPipe(unsigned int pipeID){
+    return _syscall(SYS_REGISTER_PIPE, pipeID);
 }
 
 uint64_t registerPipeAvailable(){
     return _syscall(SYS_REGISTER_PIPE_AVAILABLE);
 }
 
+uint64_t readPipe(unsigned int pipeID, char * dest, int count){
+    return _syscall(SYS_READ_PIPE, pipeID, dest, count);
+}
+
 uint64_t writePipe(int pipeID, const char * src, int count){
     return _syscall(SYS_WRITE_PIPE, pipeID, src, count);
+}
+
+uint64_t pipeInfo(pipesInfo * info){
+    return _syscall(SYS_PIPE_INFO, info);
+}
+
+void destroyPipe(unsigned int pipeID){
+    _syscall(SYS_DESTROY_PIPE, pipeID);
+}
+
+
+uint64_t registerSemaphore(uint64_t semID, unsigned int value){
+    return _syscall(SYS_REGISTER_SEM, semID, value);
+}
+
+uint64_t registerSemaphoreAvailable(unsigned int value){
+    return _syscall(SYS_REGISTER_SEM_AVAILABLE, value);
 }
 
 uint64_t waitSemaphore(uint64_t semID){
@@ -68,42 +89,50 @@ uint64_t signalSemaphore(uint64_t semID){
     return _syscall(SYS_SIGNAL_SEM, semID);
 }
 
-uint64_t destroySemaphore(uint64_t semID){
-    return _syscall(SYS_DESTROY_SEM, semID);
+uint64_t getSemaphoreInfo(semaphoreInfo * info){
+    return _syscall(SYS_SEMAPHORE_INFO, info);
 }
 
-uint64_t registerSemaphore(uint64_t semID, unsigned int value){
-    return _syscall(SYS_REGISTER_SEM, semID, value);
+void destroySemaphore(uint64_t semID){
+    _syscall(SYS_DESTROY_SEM, semID);
 }
 
-uint64_t registerSemaphoreAvailable(unsigned int value){
-    return _syscall(SYS_REGISTER_SEM_AVAILABLE, value);
-}
-
-uint64_t registerChildProcess(uint64_t entryPoint, uint8_t input, uint8_t output, uint64_t arg0){
+uint64_t registerChildProcess(uint64_t entryPoint, uint8_t input, uint8_t output, char ** arg0){
     return _syscall(SYS_REGISTER_CHILD_PROCESS, entryPoint, input, output, arg0);
 }
 
-uint64_t waitChildren(){
-    return _syscall(SYS_WAIT_CHILDREN);
+void waitChildren(){
+    _syscall(SYS_WAIT_CHILDREN);
 }
 
 uint64_t getPID(){
     return _syscall(SYS_GET_PID);
 }
 
-uint64_t registerProcess(uint64_t entrypoint, uint8_t input, uint8_t output, uint64_t arg0){
-    return _syscall(SYS_REGISTER_PROCESS, (uint64_t) entrypoint, (uint64_t) input, (uint64_t) output, arg0);
+uint64_t registerProcess(uint64_t entrypoint, uint8_t input, uint8_t output, char ** arg0){
+    return _syscall(SYS_REGISTER_PROCESS, entrypoint, input, output, arg0);
 }
 
-uint64_t pauseProcess(unsigned int pid){
-    return _syscall(SYS_PAUSE_PROCESS,(uint64_t) pid,NULL,NULL, NULL );
+uint64_t processAlive(unsigned int PID){
+    return _syscall(SYS_PROCESS_ALIVE, PID);
 }
 
-uint64_t killProcess(unsigned int pid){
-    return _syscall(SYS_KILL_PROCESS,(uint64_t) pid, NULL,NULL, NULL );
+uint64_t pauseProcess(unsigned int PID){
+    return _syscall(SYS_PAUSE_PROCESS, PID);
 }
 
-uint64_t niceProcess(uint8_t pid, int delta){
-    return _syscall(SYS_NICE, pid, delta, NULL, NULL );
+uint64_t getProcessInfo(processInfo * info){
+    return _syscall(SYS_PROCESS_INFO, info);
+}
+
+uint64_t killProcess(unsigned int PID){
+    return _syscall(SYS_KILL_PROCESS, PID);
+}
+
+uint64_t niceProcess(uint8_t PID, int delta){
+    return _syscall(SYS_NICE, PID, delta );
+}
+
+uint64_t renounceCPU(){
+    return _syscall(SYS_RENOUNCE_CPU);
 }

@@ -67,35 +67,6 @@
 #define MAX_MEM_READ 16
 #define BYTE_LENGTH 2
 
-// void sys_write_to_screen(char *buffer, int row, int col, int color);
-// void sys_write(int fd, char *buffer, int row, int col, int color);
-// void sys_read(int fd, char *buffer, int length);
-// void sys_clear();
-// void sys_time();
-// void sys_holder(int time);
-// void sys_beep(uint32_t beepTime);
-// void sys_info_reg();
-// void sys_draw(int row, int col, int color);
-// uint64_t sys_alloc(uint64_t len);
-// void sys_free(void * ptr);
-// void sys_destroy_pipe(unsigned int pipeID);
-// uint64_t sys_pipe_info(pipesInfo * info);
-// uint64_t sys_read_pipe(unsigned int pipeID, char * dest, unsigned int count);
-// uint64_t sys_register_pipe_available();
-// uint64_t sys_register_pipe(unsigned int pipeID);
-// uint64_t sys_write_pipe(unsigned int pipeID, const char * src, unsigned int count);
-// uint64_t sys_wait_sem(unsigned int ID);
-// uint64_t sys_signal_sem(unsigned int ID);
-// void sys_destroy_sem(unsigned int ID);
-// uint64_t sys_register_sem(unsigned int ID, unsigned int value);
-// uint64_t sys_register_sem_available(unsigned int value);
-// uint64_t sys_register_child_process(uint64_t entryPoint, uint8_t input, uint8_t output, char ** arg0);
-// void sys_wait_children();
-// uint64_t sys_get_pid();
-// uint64_t sys_register_process(uint64_t entrypoint, uint8_t input, uint8_t output, char ** arg0);
-// uint64_t sys_pause_process(unsigned int pid);
-// uint64_t sys_kill_process(unsigned int pid);
-// uint64_t sys_nice(uint8_t pid, int delta);
 void sys_write_to_screen(char *buffer, int row, int col, int color);
 void sys_write(int fd, char *buffer, int row, int col, int color);
 void sys_read(int fd,char *buffer, int length);

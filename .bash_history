@@ -59,3 +59,5 @@ make all
 cd
 make clean all
 exit
+cd
+make clean all
