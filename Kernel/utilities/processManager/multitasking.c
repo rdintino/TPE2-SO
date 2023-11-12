@@ -8,7 +8,7 @@ void idleTask(){
 void enableMultiTasking(){
 	idleTaskPID = addTask((uint64_t)&idleTask, STDIN, BACKGROUND, DEFAULT_PRIORITY, IMMORTAL,idleArg);
 	changeState(idleTaskPID, PAUSED_PROCESS);		// pause until it's required
-	// forceCurrentTask();
+	forceCurrentTask();
 }
 
 
@@ -134,7 +134,7 @@ void removeCurrentTask(){
 	
 	uint8_t out = tasks[currentTask].output;
 	if(out != STDOUT){
-		// signal_eof(out);
+		signalEOF(out);
 	}
 	forceChangeTask();
 
@@ -142,7 +142,7 @@ void removeCurrentTask(){
 
 void forceChangeTask(){
 	currentRemainingTicks = tasks[currentTask].priority + 1;
-	// forceTimerTick();
+	forceTimerTick();
 }
 
 void changeState(unsigned int PID, uint8_t new_state){
@@ -196,7 +196,6 @@ uint8_t enoughTimeLeft(){
 }
 
 uint64_t nextTask(uint64_t stackPointer, uint64_t stackSegment){
-
 	tasks[currentTask].stackPointer = stackPointer;			
 	tasks[currentTask].stackSegment = stackSegment;
 	

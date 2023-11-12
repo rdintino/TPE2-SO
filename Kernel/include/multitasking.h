@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <syscalls.h>
 #include <memoryManager.h>
+#include <pipes.h>
 
 #define NO_TASKS 0
 #define NO_TASK_FOUND -1
