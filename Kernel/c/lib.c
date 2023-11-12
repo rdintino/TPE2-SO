@@ -48,3 +48,33 @@ void * memcpy(void * destination, const void * source, uint64_t length)
 
 	return destination;
 }
+
+void reverseString(char * string, int length) {
+    char aux;
+    for(int i = 0, j = length - 1; i < j ; i++, j--) {
+        aux = string[i];
+        string[i] = string[j];
+        string[j] = aux;
+    }
+}
+
+
+int hexToString(uint64_t num, char * buffer, int fixedLength) {
+    int i = 0;
+
+    for(int aux ; num > 0 ; i++, num/=16){
+        aux = num % 16;
+        if(aux < 10)                     // turn to hex
+            buffer[i] = aux + '0';
+        else
+            buffer[i] = aux - 10 + 'A';
+
+    }
+    while(i<fixedLength) {                   // add 0 == end it with the desired length
+        buffer[i++] = '0';
+    }
+    reverseString(buffer,i);
+    buffer[i] = 0;
+
+    return i;
+}

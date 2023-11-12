@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <mm_utils.h>
+#include <mm_impl.h>
+#include <stddef.h>
 
 #define SUM_PTR(ptr, num) ((uint64_t) (ptr) + (num))
 

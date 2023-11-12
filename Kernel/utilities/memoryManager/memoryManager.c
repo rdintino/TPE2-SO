@@ -1,13 +1,19 @@
 #ifndef USE_BUDDY
 
 #include "../include/memoryManager.h"
-#include "../include/mm_impl.h"
-#include <stddef.h>
 
 static memStatus mmStatusInfo = { 0 };
 
 memStatus * getMemStatus() {
     return &mmStatusInfo;
+}
+
+void printMemStatus(uint64_t buffer[3]) {
+  memStatus * status = getMemStatus();
+
+  buffer[0] = status->allocatedBytes;
+  buffer[1] = status->freeBytes;
+  buffer[2] = status->allocatedBlocks;
 }
 
 void mm_init() {
