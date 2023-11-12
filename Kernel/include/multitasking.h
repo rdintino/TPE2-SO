@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <syscalls.h>
 #include <memoryManager.h>
+#include <pipes.h>
 
 #define NO_TASKS 0
 #define NO_TASK_FOUND -1
@@ -92,7 +93,7 @@ uint64_t getRSP();
 uint64_t getSS();
 uint8_t getCurrentOutput();
 uint8_t getCurrentInput();
-unsigned int  getCurrentPID();
+unsigned int getCurrentPID();
 
 int findTask(unsigned int PID);
 int addTask(uint64_t entrypoint, uint8_t input, uint8_t output, uint8_t priority, uint8_t immortal, char ** arg0);

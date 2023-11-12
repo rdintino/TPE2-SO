@@ -51,3 +51,11 @@ cd Toolchain/
 make all
 cd ..
 make all
+cd
+make clean all
+make clean all
+cd Toolchain
+make all
+cd
+make clean all
+exit

@@ -38,6 +38,7 @@ int findPipe(unsigned int ID);
 int findAvailablePipe();
 int createAvailablePipe();
 void destroyPipe(unsigned int ID);
+void signalEOF(unsigned int ID);
 int readFromPipe(unsigned int ID, char * dest, unsigned int count);
 int writeToPipe(unsigned int ID, const char * src, unsigned int count);
 uint64_t getPipeInfo(pipesInfo * info);

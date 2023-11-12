@@ -227,7 +227,6 @@ uint8_t enoughTimeLeft(){
 }
 
 uint64_t nextTask(uint64_t stackPointer, uint64_t stackSegment){
-
 	tasks[currentTask].stackPointer = stackPointer;			
 	tasks[currentTask].stackSegment = stackSegment;
 	
