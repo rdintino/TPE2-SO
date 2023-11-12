@@ -4,6 +4,8 @@ GLOBAL picMasterMask
 GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
+GLOBAL forceCurrentTask
+GLOBAL forceTimerTick
 
 GLOBAL _irq00Handler
 GLOBAL _irq01Handler
@@ -20,8 +22,8 @@ GLOBAL _exception6Handler
 GLOBAL inb
 GLOBAL outb
 
-GLOBAL forceCurrentTask:
-GLOBAL forceTimerTick:
+GLOBAL forceCurrentTask
+GLOBAL forceTimerTick
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
@@ -31,6 +33,7 @@ EXTERN getStackBase
 EXTERN enoughTimeLeft
 EXTERN nextTask
 EXTERN getRSP
+
 
 SECTION .text
 %macro pushState 0
@@ -164,9 +167,6 @@ _irq00Handler:
 
   popState
   iretq
-
-;   irqHandlerMaster 0
-
 
 ;Keyboard
 _irq01Handler:

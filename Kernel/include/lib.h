@@ -16,4 +16,7 @@ int hexToString(uint64_t num, char * buffer, int fixedLength);
 
 char *cpuVendor(char *result);
 
+int _xadd(unsigned int * lock, int value);
+int _xchg(unsigned int * lock, int value);
+
 #endif

@@ -5,6 +5,8 @@
         "syscalls.h": "c",
         "pipes.h": "c",
         "testsync.h": "c",
-        "shell.h": "c"
+        "shell.h": "c",
+        "multitasking.h": "c",
+        "locks.h": "c"
     }
 }
