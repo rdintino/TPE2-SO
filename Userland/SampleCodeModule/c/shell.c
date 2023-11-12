@@ -11,7 +11,8 @@ modules module[] = {
     {"testMm","         -    Test memory manager", testMm},
     {"testProcesses","  -    Test process management",testProcesses},
     {"testPriorities"," -    Test priorities",testPriorities},
-    {"cat","            -    Writes in console what has been read", cat}
+    {"cat","            -    Writes in console what has been read", cat},
+    {"loop","           -    Loops while printing the process id every half a second",loop}
 };
 
 static char *starter = "$> ";
@@ -83,4 +84,15 @@ void cat(){
   while ((c = getChar()) != -1) { 
       putChar(c); 
   }
+}
+
+void loop(){
+	int pid = getPID();
+	char *buffer = " Process ID:";
+	while(1){
+		for(int i = 0; i < HALF_SECOND ; i++)
+			;
+		printf(" Process ID:");
+        printf(int64ToString(pid));
+	}	
 }
