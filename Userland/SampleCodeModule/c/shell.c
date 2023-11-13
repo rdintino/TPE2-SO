@@ -12,7 +12,9 @@ modules module[] = {
     {"testProcesses","  -    Test process management",testProcesses},
     {"testPriorities"," -    Test priorities",testPriorities},
     {"cat","            -    Writes in console what has been read", cat},
-    {"loop","           -    Loops while printing the process id every half a second",loop}
+    {"loop","           -    Loops while printing the process id every half a second",loop},
+    {"wc","             -    Counts the lines in what has been written in screen",wc},
+    {"filter","         -    Filters what has been written and only shows consonants",filter}
 };
 
 static char *starter = "$> ";
@@ -81,18 +83,50 @@ void clear(){
 
 void cat(){
   int c;
-  while ((c = getChar()) != -1) { 
-      putChar(c); 
-  }
+  char buffer[BUFFER_SIZE] = {0};
+  scanf(buffer, BUFFER_SIZE);
+  printf(buffer);
 }
 
 void loop(){
 	int pid = getPID();
-	char *buffer = " Process ID:";
+	char *buffer = "  Process ID:";
 	while(1){
 		for(int i = 0; i < HALF_SECOND ; i++)
 			;
 		printf(" Process ID:");
-        printf(int64ToString(pid));
+        println(int64ToString(pid));
+
 	}	
 }
+
+void filter(){
+  char c;
+  int i,j=0;
+  char buffer[BUFFER_SIZE] = {0};
+  char outBuffer[BUFFER_SIZE] ={0};
+  outBuffer[j++] = '\n';
+  scanf(buffer,BUFFER_SIZE);
+  for(i=0;i<BUFFER_SIZE || buffer[i]==0;i++){
+    c = buffer[i];
+    if(c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u')
+        outBuffer[j++] = c;
+  }
+  println(outBuffer);
+}
+
+void wc(){
+  int counter = 0; 
+  char c;
+  while ((c = getChar()) != -1){
+    if (c == '\n'){
+      counter++;
+    }
+    putChar(c);
+  }
+  printf("Total new lines: ");
+  printf(int64ToString(counter));
+  return;
+}
+
+
