@@ -1,4 +1,5 @@
 #include <keyboardDriver.h>
+#include <syscalls.h>
 
 char buffer[BUFFER_DIM] = {0};
 int previous = 0;
@@ -39,7 +40,7 @@ void keyboardHandler(uint64_t *rsp) {
             ctrlPressed = 1;
             break;
         case CTRL + RELEASED_KEY:
-            ctrlPressed = 0;
+            ctrlPressed = 1;
             break;
         case ALT:
             break;
@@ -52,6 +53,17 @@ void keyboardHandler(uint64_t *rsp) {
                 if (ctrlPressed) {
                     if (keyboardMap[scan_code][secondChar] == 'R' || keyboardMap[scan_code][secondChar] == 'r') {
                         saveRegistersState(rsp);
+                    }
+                    if (keyboardMap[scan_code][secondChar] == 'D' || keyboardMap[scan_code][secondChar] == 'd') {
+                        buffer[current++] = EOF;
+                        ctrlPressed = 0;
+                        putChar('A',GREEN);
+                    }
+                    if (keyboardMap[scan_code][secondChar] == 'C' || keyboardMap[scan_code][secondChar] == 'c') {
+                        cleanKeyboardBuffer();
+                        killScreenProcesses();
+                        
+                        ctrlPressed = 0;
                     }
                     return;
                 }
@@ -69,4 +81,11 @@ void readKeyboard(char * toWrite, int length){
         buffer[read] = 0;
         read = (read + 1) % BUFFER_DIM;
     }
+}
+
+void cleanKeyboardBuffer() {
+  for(int i = 0 ; i < current ; i++){
+    buffer[i] = 0;
+  } 
+  current = 0;
 }

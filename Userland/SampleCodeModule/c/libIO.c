@@ -23,9 +23,9 @@ void printlnColored(char * string, int color){
 }
 
 char getChar(){
-    char c;
+	char c;
     read(STDIN,&c, 1);
-    return c;
+	return c;
 }
 
 void putChar(char c) {

@@ -167,7 +167,7 @@ uint64_t sys_kill_process(unsigned int PID){
     return removeTask(PID);
 }
 
- uint64_t sys_nice(uint8_t PID, int delta){
+uint64_t sys_nice(uint8_t PID, int delta){
 	return changePriority(PID, delta);
 }
 

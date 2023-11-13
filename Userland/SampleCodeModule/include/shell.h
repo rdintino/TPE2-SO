@@ -16,12 +16,22 @@
 typedef struct{
     char * name;
     char * description;
-    void (*function)();
+    uint64_t function;
+    int args;
+    int pipe;
+
 } modules;
 
 extern void invalidOperationCode();
 
 void * memset(void * destiny, int32_t c, uint64_t length);
+unsigned int check_valid_program(char * string);
+char ** make_params(char ** words, unsigned int len);
+int piped_process_handle(char ** words, unsigned int amount_of_words);
+void single_process_handle(char ** words, unsigned int amount_of_words);
+
+
+int parseCommand(char ** command, char readBuf[BUFFER_SIZE]);
 
 void initShell();
 void callModule(char *buffer);
