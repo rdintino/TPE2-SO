@@ -73,7 +73,7 @@ int getAvailableSemaphore(){
 		return NO_SPACE_ERROR;
 
 	uint8_t found = 0;
-	int ID = INITIAL_ID;  
+	int ID = 10;  
 
 	while(!found){
 		found = 1;

@@ -17,19 +17,19 @@
 #define MIN(a,b) ((a) <= (b) ? (a) : (b))
 
 modules module[] = {
-    {"help", "          -    Displays the module list", (uint64_t)&help,0,0},
+    {"help", "          -    Displays the module list", (uint64_t)&help,0,1},
     {"divzero", "       -    Throws Divide by Zero exception",(uint64_t) &divZero,0,0},
     {"invopcode", "     -    Throws Invalid Operation Code exception",(uint64_t) &invOpCode,0,0},
-    {"time", "          -    Displays the systems current time",(uint64_t) &time,0,0},
+    {"time", "          -    Displays the systems current time",(uint64_t) &time,0,1},
     {"pong", "          -    Loads Pong game",(uint64_t) &pong,0,0},
     {"inforeg", "       -    Displays the registers state",(uint64_t) &infoReg,0,0},
     {"clear", "         -    Clears the screen",(uint64_t) &clear,0,0},
     {"testMm","         -    Test memory manager",(uint64_t) &testMm,0,0},
     {"testProcesses","  -    Test process management",(uint64_t) &testProcesses,1,0},
     {"testPriorities"," -    Test priorities",(uint64_t) &testPriorities,0,0},
-    {"cat","            -    Writes in console what has been read",(uint64_t) &cat,0,0},
+    {"cat","            -    Writes in console what has been read",(uint64_t) &cat,0,1},
     {"loop","           -    Loops while printing the process id every half a second",(uint64_t) &loop,0,0},
-    {"wc","             -    Counts the lines in what has been written in screen",(uint64_t) &wc,0,0},
+    {"wc","             -    Counts the lines in what has been written in screen",(uint64_t) &wc,0,1},
     {"filter","         -    Filters what has been written and only shows consonants",(uint64_t) &filter,0,1}
 };
 
@@ -40,13 +40,17 @@ int parseCommand(char ** command, char buffer[BUFFER_SIZE]) {
 	int i = 0, commandWords = 0;
 	
 	for(int postSpace = 1; commandWords < MAX_COMMAND_WORDS && buffer[i] != '\n' && buffer[i] != 0; i++) {
-    if(buffer[i] == ' ') {
-      postSpace = 1;
-      buffer[i] = 0;
-    } else if(postSpace) {
-      command[commandWords++] = buffer + i; 
-      postSpace = 0;
-    }
+        if(buffer[i]==-1){
+            buffer[i]=0;//1help 0help
+            return commandWords;
+        }
+        if(buffer[i] == ' ') {
+          postSpace = 1;
+          buffer[i] = 0;
+        } else if(postSpace) {
+          command[commandWords++] = buffer + i; 
+          postSpace = 0;
+        }
 	}
 
   buffer[i] = 0;
@@ -109,6 +113,7 @@ int piped_process_handle(char ** words, unsigned int amount_of_words){
         return 1;
     }
     int pipe_id = registerPipeAvailable();
+    
 
     if(pipe_id <= 0){
         printf("Error creating pipe!");
@@ -139,7 +144,7 @@ void single_process_handle(char ** words, unsigned int amount_of_words){
 
     int i;
     for(i=module[program_pos].args + 1; i < amount_of_words; i++){
-        if(strcmp(";", words[i]) == 0){ 
+        if(strcmp("&", words[i]) == 0){ 
             registerChildProcess(module[program_pos].function, STDIN, BACKGROUND, make_params(words, MIN(i-1,module[program_pos].args))); //Run on Background
             return; 
         }
@@ -223,7 +228,7 @@ void cat(){
   int c;
   char buffer[BUFFER_SIZE] = {0};
   scanf(buffer, BUFFER_SIZE);
-  printf(buffer);
+  println(buffer);
 }
 
 void loop(){
@@ -263,7 +268,7 @@ void wc(){
     putChar(c);
   }
   printf("Total new lines: ");
-  printf(int64ToString(counter));
+  println(int64ToString(counter));
   return;
 }
 

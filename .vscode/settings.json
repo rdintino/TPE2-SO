@@ -8,6 +8,7 @@
         "shell.h": "c",
         "multitasking.h": "c",
         "locks.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "cstdio": "c"
     }
 }

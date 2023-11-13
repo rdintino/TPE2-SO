@@ -28,8 +28,10 @@ void sys_write(int fd, char *buffer, int row, int col, int color){
 }
 
 void sys_read(int fd,char *buffer, int length){
+
     if(fd==STDIN){
         readKeyboard(buffer, length);
+        return;
     }
     readFromPipe(fd,buffer,length);
 }

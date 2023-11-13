@@ -5,6 +5,7 @@
 #include <registers.h>
 
 #define BUFFER_DIM 10
+#define BUFFER_SIZE 256
 #define KEY_COUNT 256
 
 #define ESC 0x01

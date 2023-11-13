@@ -56,7 +56,7 @@ int findAvailablePipe(){
 		return NO_SPACE_ERROR;
 
 	uint8_t found = false;
-	int pipeID = 0;
+	int pipeID = 10;
 
 	while(!found){
 		found = true;
@@ -115,17 +115,22 @@ void signalEOF(unsigned int ID){
 
 int readFromPipe(unsigned int ID, char * buffer, unsigned int count){
 	int pos = findPipe(ID);
+	putChar('a',RED);
 	if(pos == INVALID_PIPE_ID){
 		return INVALID_PIPE_ID;
 	}
+	putChar('b',RED);
 	if(pipeList[pos].eof && pipeList[pos].qty == 0){
 		return EOF;
 	}
 	int i = 0;	
+	putChar('c',RED);
 	for(; i < count && !(pipeList[pos].eof && pipeList[pos].qty == 0); i++){
+		putChar(pipeList[pos].pipe[pipeList[pos].readPos],BLUE);
 		waitSemaphore(pipeList[pos].readSemID);
 
 		buffer[i] = pipeList[pos].pipe[pipeList[pos].readPos];
+		putChar(buffer[i],BLUE);
 		INCREASE_MOD(pipeList[pos].readPos, PIPE_SIZE);
 		pipeList[pos].qty--;
 
@@ -141,13 +146,17 @@ int writeToPipe(unsigned int ID, const char * buffer, unsigned int count){
 
 	for(int i=0; i<count; i++){
 		waitSemaphore(pipeList[pos].writeSemID);
-
 		pipeList[pos].pipe[pipeList[pos].writePos] = buffer[i];
 		INCREASE_MOD(pipeList[pos].writePos, PIPE_SIZE);
 		pipeList[pos].qty++;
 
 		signalSemaphore(pipeList[pos].readSemID);
 	}
+	//putChar("<",RED);
+    //for (int i = 0; i < PIPE_SIZE; i++) {
+    //    putChar(pipeList[pos].pipe[i],RED);
+    //}
+    //putChar("\n",BLACK);
 	return count;
 }
 
