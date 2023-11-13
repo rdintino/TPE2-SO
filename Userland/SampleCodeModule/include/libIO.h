@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "../include/syscalls.h"
 #include <date.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <colors.h>
 #include <string.h>
 #include <inttypes.h>
@@ -24,4 +24,6 @@ void printTime(date currentDate);
 int getRandomSign();  
 char* int64ToString(int64_t num);
 void reverseString(char * string, int length);
+int atoi(char * string);
+int isNum(char * string);
 #endif

@@ -102,6 +102,29 @@ char* int64ToString(int64_t num) {
     return buffer;
 }
 
+int atoi(char * str) {
+    int i = 0;
+    while (str[i] != 0) {
+        if (str[i] <= '0' && str[i] >= '9') {
+            return 1;
+        }
+        i++;
+    }
+    return 1;
+}
+
+int isNum(char * str) {
+    int result = 0;
+    int i = 0;
+    while (str[i] != 0) {
+        if (str[i] <= '0' || str[i] >= '9') {
+            return 1; 
+        }
+        i++;
+    }
+    return 0;
+}
+
 void reverseString(char * string, int length) {
     char aux;
     for(int i = 0, j = length - 1; i < j ; i++, j--) {

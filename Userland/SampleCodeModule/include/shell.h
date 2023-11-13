@@ -10,8 +10,10 @@
 #define BUFFER_SIZE 25
 #define STDIN 1
 #define STDOUT 1
-#define MODULES 14
+#define MODULES 16
 #define HALF_SECOND 500000000
+#define ACTIVE_PROCESS 1
+#define PAUSED_PROCESS 2
 
 typedef struct{
     char * name;

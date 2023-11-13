@@ -30,7 +30,9 @@ modules module[] = {
     {"cat","            -    Writes in console what has been read",(uint64_t) &cat,0,1},
     {"loop","           -    Loops while printing the process id every half a second",(uint64_t) &loop,0,0},
     {"wc","             -    Counts the lines in what has been written in screen",(uint64_t) &wc,0,1},
-    {"filter","         -    Filters what has been written and only shows consonants",(uint64_t) &filter,0,1}
+    {"filter","         -    Filters what has been written and only shows consonants",(uint64_t) &filter,0,1},
+    {"kill","           -    Kills a process given its id",(uint64_t) &kill,1,0},
+    {"ps","             -    Shows every running process and its data",(uint64_t) &ps,0,0}
 };
 
 static char *starter = "$> ";
@@ -272,4 +274,72 @@ void wc(){
   return;
 }
 
+void ps(){
+
+	processInfo * info = (void *)alloc(20 * sizeof(processInfo)); 
+
+	if(info == NULL) {
+		printf("No more space\n");
+		return;
+	}
+
+	uint64_t amount = getProcessInfo(info);
+
+	for(int i = 0; i < amount; i++){
+		printf("Name: ");
+        printf(info[i].name);
+        printf("\t| ");
+        printf("PID: ");
+        printf(int64ToString(info[i].ID));
+        printf("\t| ");
+        printf("State: ");
+        switch(info[i].state){
+            case ACTIVE_PROCESS: 
+                printf("Active\t| ");
+                break;
+            case PAUSED_PROCESS:
+                printf("Paused\t| ");
+                break;
+            default:
+                printf("Blocked\t| ");
+                break;
+        }
+        printf("Priority: ");
+        printf(int64ToString(info[i].priority));
+        printf("\t| ");
+        printf("Stack: ");
+        printf(int64ToString(info[i].stack));
+        printf("\t| ");
+        printf("RSP: ");
+        printf(int64ToString(info[i].rsp));
+        printf("\t| ");
+        printf("Screen: ");
+        switch(info[i].screen) {
+        case BACKGROUND:
+            printf("Background\n");
+            break;
+        case STDOUT:
+            printf("STDOUT\n");
+            break;
+        default:
+            printf("Pipe\n");
+            break;
+        }
+	}
+
+	freeMem((void*)info);
+}
+
+
+void kill(char ** args){
+  if(!isNum(args[1])) { 
+    printf("Kill's argument must be number (process id).\n");
+    return;
+  }
+  uint64_t pid = atoi(args[1]);
+  if (killProcess(pid) == ERROR_PID){
+    printf(INVALID_PID_MSG);
+  }
+  return;
+}
 

@@ -263,7 +263,6 @@ int getProcessInfo(processInfo * info){
 	int j=0;
 	for(int i=0; i<TOTAL_TASKS; i++){
 		if(tasks[i].state != DEAD_PROCESS){
-
 			if(tasks[i].params !=NULL){
 				info[j].name = tasks[i].params[0];		
 			}
