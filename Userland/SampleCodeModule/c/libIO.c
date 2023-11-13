@@ -82,6 +82,16 @@ int getRandomSign() {
     return (seed % 2 == 0) ? 1 : -1;    // Devuelve 1 si es par, -1 si es impar
 }
 
+uint64_t _atoi(const char * string) {
+    uint64_t result = 0;
+
+    for(int i = 0 ; string[i] ; i++) {
+        result = result*10 + string[i] - '0';
+    }
+
+    return result;
+}
+
 char* int64ToString(int64_t num) {
     char* buffer = (char*)alloc(21); // 20 digits for the number, 1 for null-terminator
     if (buffer == NULL) {
@@ -109,4 +119,13 @@ void reverseString(char * string, int length) {
         string[i] = string[j];
         string[j] = aux;
     }
+}
+
+int stringcpy(char * dest, const char * src, unsigned int n){
+    int i=0;
+    for(; src[i]!=0 && i<n; i++){
+        dest[i] = src[i];
+    }
+    dest[i] = 0;
+    return i;
 }

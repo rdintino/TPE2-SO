@@ -22,6 +22,8 @@ void deleteChar();
 void scanf(char *buffer, int bufferSize);
 void printTime(date currentDate);
 int getRandomSign();  
+uint64_t _atoi(const char * string);
 char* int64ToString(int64_t num);
 void reverseString(char * string, int length);
+int stringcpy(char * dest, const char * src, unsigned int n);
 #endif

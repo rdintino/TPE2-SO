@@ -2,8 +2,8 @@
 #define SYSCALLS_H
 
 #include <stdint.h>
-#include <date.h>
-#include <types.h>
+#include "../include/date.h"
+#include "../include/types.h"
 #include <stddef.h>
 
 #define BACKGROUND 0
