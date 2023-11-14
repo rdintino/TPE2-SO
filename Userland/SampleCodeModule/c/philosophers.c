@@ -15,7 +15,7 @@ void phylo() {
 
     char buffer = 0;
     while(!end){
-        read(SYS_READ, &buffer, 1);
+        read(STDIN, &buffer, 1);
         switch(buffer){
             case 'a':
                 addPhilosopher();
