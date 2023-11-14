@@ -17,10 +17,10 @@
 #define MIN(a,b) ((a) <= (b) ? (a) : (b))
 
 modules module[] = {
-    {"help", "          -    Displays the module list", (uint64_t)&help,0,1},
+    {"help", "          -    Displays the module list", (uint64_t)&help,0,0},
     {"divzero", "       -    Throws Divide by Zero exception",(uint64_t) &divZero,0,0},
     {"invopcode", "     -    Throws Invalid Operation Code exception",(uint64_t) &invOpCode,0,0},
-    {"time", "          -    Displays the systems current time",(uint64_t) &time,0,1},
+    {"time", "          -    Displays the systems current time",(uint64_t) &time,0,0},
     {"pong", "          -    Loads Pong game",(uint64_t) &pong,0,0},
     {"inforeg", "       -    Displays the registers state",(uint64_t) &infoReg,0,0},
     {"clear", "         -    Clears the screen",(uint64_t) &clear,0,0},
@@ -28,15 +28,15 @@ modules module[] = {
     {"testProcesses", " -    Test process management",(uint64_t) &testProcesses,1,0},
     {"testPriorities", "-    Test priorities",(uint64_t) &testPriorities,0,0},
     {"cat", "           -    Writes in console what has been read",(uint64_t) &cat,0,1},
-    {"loop", "          -    Loops while printing the process id every half a second",(uint64_t) &loop,0,0},
-    {"wc", "            -    Counts the lines in what has been written in screen",(uint64_t) &wc,0,1},
+    {"loop", "          -    Loops while printing the process id every half a second",(uint64_t) &loop,0,1},
+    {"wc", "            -    Counts the lines in what has been written in screen",(uint64_t) &wc,0,0},
     {"filter", "        -    Filters what has been written and only shows consonants",(uint64_t) &filter,0,1},
     {"kill", "          -    Kills a process given its id",(uint64_t) &kill,1,0},
-    {"ps", "            -    Shows every running process and its data",(uint64_t) &ps,0,0},
+    {"ps", "            -    Shows every running process and its data",(uint64_t) &ps,0,1},
     {"phylo", "         -    Philosophers", (uint64_t) &phylo, 0, 0},
-    {"nice","             -  Changes the priority process  ",(uint64_t) &nice,2,0},
-    {"block","             - Pauses a process  ",(uint64_t) &block,1,0},
-    {"mem","             -   Displays the memory status",(uint64_t) &mem_status,0,0}
+    {"nice", "          -    Changes the priority process  ",(uint64_t) &nice,2,0},
+    {"block", "         -    Pauses a process  ",(uint64_t) &block,1,0},
+    {"mem", "           -    Displays the memory status",(uint64_t) &mem_status,0,0}
 };
 
 static char *starter = "$> ";
@@ -47,7 +47,7 @@ int parseCommand(char ** command, char buffer[BUFFER_SIZE]) {
 	
 	for(int postSpace = 1; commandWords < MAX_COMMAND_WORDS && buffer[i] != '\n' && buffer[i] != 0; i++) {
         if(buffer[i]==-1){
-            buffer[i]=0;//1help 0help
+            buffer[i]=0;
             return commandWords;
         }
         if(buffer[i] == ' ') {
