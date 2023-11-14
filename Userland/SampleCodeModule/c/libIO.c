@@ -102,27 +102,33 @@ char* int64ToString(int64_t num) {
     return buffer;
 }
 
-int atoi(char * str) {
+uint64_t _atoi( char * string) {
+    uint64_t result = 0;
+
+    for(int i = 0 ; string[i] ; i++) {
+        result = result*10 + string[i] - '0';
+    }
+
+    return result;
+}
+
+int strlength(const char * str) {
+    int ans = 0;
+    for (int i = 0; str[i] != 0; i++) {
+        ans++;
+    }
+    return ans;
+}
+
+int isNum(char * str) {
     int i = 0;
     while (str[i] != 0) {
-        if (str[i] <= '0' && str[i] >= '9') {
-            return 1;
+        if (str[i] <= '0' || str[i] >= '9') {
+            return 0; 
         }
         i++;
     }
     return 1;
-}
-
-int isNum(char * str) {
-    int result = 0;
-    int i = 0;
-    while (str[i] != 0) {
-        if (str[i] <= '0' || str[i] >= '9') {
-            return 1; 
-        }
-        i++;
-    }
-    return 0;
 }
 
 void reverseString(char * string, int length) {
@@ -132,4 +138,13 @@ void reverseString(char * string, int length) {
         string[i] = string[j];
         string[j] = aux;
     }
+}
+
+int _strncpy(char * dest, const char * src, unsigned int n){
+    int i=0;
+    for(; src[i]!=0 && i<n; i++){
+        dest[i] = src[i];
+    }
+    dest[i] = 0;
+    return i;
 }

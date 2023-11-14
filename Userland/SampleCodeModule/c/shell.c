@@ -82,8 +82,8 @@ char ** make_params(char ** words, unsigned int len){
     int paramLen;
 
     int i=0;
-    for(; i<len + 1; i++){
-        paramLen = strlen(words[i]) + 1;
+    for(; i<=len + 1; i++){
+        paramLen = strlength(words[i]) + 1;
         param = (void*) alloc(paramLen);
 
          if(param == NULL){
@@ -93,10 +93,12 @@ char ** make_params(char ** words, unsigned int len){
 
         char * param2 = (char *) param;
 
-        strncpy(param2, words[i], paramLen);
+        _strncpy(param2, words[i], paramLen);
         params[i] = param2;
     }
     params[i] = NULL;
+
+    println(params[1]);
 
     return params;
 }
@@ -147,7 +149,7 @@ void single_process_handle(char ** words, unsigned int amount_of_words){
     int i;
     for(i=module[program_pos].args + 1; i < amount_of_words; i++){
         if(strcmp("&", words[i]) == 0){ 
-            registerChildProcess(module[program_pos].function, STDIN, BACKGROUND, make_params(words, MIN(i-1,module[program_pos].args))); //Run on Background
+            registerProcess(module[program_pos].function, STDIN, BACKGROUND, make_params(words, MIN(i-1,module[program_pos].args))); //Run on Background
             return; 
         }
     }
@@ -168,6 +170,7 @@ void initShell(){
         printColored(starter, GREEN);
         scanf(buffer, BUFFER_SIZE);
         int commandWords = parseCommand(command, buffer);
+
         println("");
         if(commandWords == 0)
           continue;
@@ -326,17 +329,19 @@ void ps(){
             break;
         }
 	}
-
 	freeMem((void*)info);
 }
 
 
 void kill(char ** args){
+    println(args[1]);
   if(!isNum(args[1])) { 
     printf("Kill's argument must be number (process id).\n");
     return;
   }
-  uint64_t pid = atoi(args[1]);
+
+  uint64_t pid = _atoi(args[1]);
+  println(int64ToString(pid));
   if (killProcess(pid) == ERROR_PID){
     printf(INVALID_PID_MSG);
   }

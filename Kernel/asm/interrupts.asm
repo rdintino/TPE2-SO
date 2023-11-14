@@ -4,7 +4,6 @@ GLOBAL picMasterMask
 GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
-GLOBAL forceCurrentTask
 GLOBAL forceTimerTick
 
 GLOBAL _irq00Handler

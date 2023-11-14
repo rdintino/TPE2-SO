@@ -24,6 +24,8 @@ void printTime(date currentDate);
 int getRandomSign();  
 char* int64ToString(int64_t num);
 void reverseString(char * string, int length);
-int atoi(char * string);
+uint64_t _atoi(char * string);
+int strlength(const char * str);
 int isNum(char * string);
+int _strncpy(char * dest, const char * src, unsigned int n);
 #endif
