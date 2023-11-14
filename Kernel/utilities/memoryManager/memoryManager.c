@@ -8,13 +8,6 @@ memStatus * getMemStatus() {
     return &mmStatusInfo;
 }
 
-void printMemStatus(uint64_t buffer[3]) {
-  memStatus * status = getMemStatus();
-
-  buffer[0] = status->allocatedBytes;
-  buffer[1] = status->freeBytes;
-  buffer[2] = status->allocatedBlocks;
-}
 
 void mm_init() {
     mmStatusInfo.freeBytes = HEAP_SIZE;

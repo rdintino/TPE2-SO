@@ -52,8 +52,6 @@ void testPriorities();
 void ps();
 void loop();
 void kill();
-void nice();
-void block();
 
 void cat();
 void wc();
