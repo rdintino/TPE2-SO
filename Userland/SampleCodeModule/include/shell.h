@@ -6,6 +6,7 @@
 #include <date.h>
 #include <string.h>
 #include <pong.h>
+#include "../include/loader.h"
 
 #define BUFFER_SIZE 25
 #define STDIN 1
@@ -27,7 +28,6 @@ typedef struct{
 
 extern void invalidOperationCode();
 
-void * memset(void * destiny, int32_t c, uint64_t length);
 unsigned int check_valid_program(char * string);
 char ** make_params(char ** words, unsigned int len);
 int piped_process_handle(char ** words, unsigned int amount_of_words);

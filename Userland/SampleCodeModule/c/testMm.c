@@ -1,6 +1,7 @@
 #include "../include/syscalls.h"
 #include "../include/testUtils.h"
 #include "../include/shell.h"
+#include "../include/loader.h"
 #include <string.h>
 
 #define MAX_BLOCKS 128
@@ -45,7 +46,7 @@ void testMm() {
     uint32_t i;
     for (i = 0; i < rq; i++){
       if (mm_rqs[i].address){
-        memset(mm_rqs[i].address, i, mm_rqs[i].size);
+        _memset(mm_rqs[i].address, i, mm_rqs[i].size);
         }
     }
     // Testing

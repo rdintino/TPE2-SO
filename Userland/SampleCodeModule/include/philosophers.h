@@ -3,7 +3,7 @@
 
 #include "../include/syscalls.h"
 #include "../include/libIO.h"
-
+#include "../include/syscalls.h"
 #define MAX_PHILOSOPHERS 15
 #define MIN_PHILOSOPHERS 5
 #define LEFT    (i + currentCount - 1) % currentCount

@@ -115,22 +115,17 @@ void signalEOF(unsigned int ID){
 
 int readFromPipe(unsigned int ID, char * buffer, unsigned int count){
 	int pos = findPipe(ID);
-	putChar('a',RED);
 	if(pos == INVALID_PIPE_ID){
 		return INVALID_PIPE_ID;
 	}
-	putChar('b',RED);
 	if(pipeList[pos].eof && pipeList[pos].qty == 0){
 		return EOF;
 	}
 	int i = 0;	
-	putChar('c',RED);
 	for(; i < count && !(pipeList[pos].eof && pipeList[pos].qty == 0); i++){
-		putChar(pipeList[pos].pipe[pipeList[pos].readPos],BLUE);
 		waitSemaphore(pipeList[pos].readSemID);
 
 		buffer[i] = pipeList[pos].pipe[pipeList[pos].readPos];
-		putChar(buffer[i],BLUE);
 		INCREASE_MOD(pipeList[pos].readPos, PIPE_SIZE);
 		pipeList[pos].qty--;
 
