@@ -25,14 +25,15 @@ modules module[] = {
     {"inforeg", "       -    Displays the registers state",(uint64_t) &infoReg,0,0},
     {"clear", "         -    Clears the screen",(uint64_t) &clear,0,0},
     {"testMm","         -    Test memory manager",(uint64_t) &testMm,0,0},
-    {"testProcesses","  -    Test process management",(uint64_t) &testProcesses,1,0},
-    {"testPriorities"," -    Test priorities",(uint64_t) &testPriorities,0,0},
-    {"cat","            -    Writes in console what has been read",(uint64_t) &cat,0,1},
-    {"loop","           -    Loops while printing the process id every half a second",(uint64_t) &loop,0,0},
-    {"wc","             -    Counts the lines in what has been written in screen",(uint64_t) &wc,0,1},
-    {"filter","         -    Filters what has been written and only shows consonants",(uint64_t) &filter,0,1},
-    {"kill","           -    Kills a process given its id",(uint64_t) &kill,1,0},
-    {"ps","             -    Shows every running process and its data",(uint64_t) &ps,0,0}
+    {"testProcesses", " -    Test process management",(uint64_t) &testProcesses,1,0},
+    {"testPriorities", "-    Test priorities",(uint64_t) &testPriorities,0,0},
+    {"cat", "           -    Writes in console what has been read",(uint64_t) &cat,0,1},
+    {"loop", "          -    Loops while printing the process id every half a second",(uint64_t) &loop,0,0},
+    {"wc", "            -    Counts the lines in what has been written in screen",(uint64_t) &wc,0,1},
+    {"filter", "        -    Filters what has been written and only shows consonants",(uint64_t) &filter,0,1},
+    {"kill", "          -    Kills a process given its id",(uint64_t) &kill,1,0},
+    {"ps", "            -    Shows every running process and its data",(uint64_t) &ps,0,0},
+    {"phylo", "         -    Philosophers", (uint64_t) &phylo, 0, 0},
 };
 
 static char *starter = "$> ";
@@ -177,7 +178,7 @@ void initShell(){
         if(piped_process_handle(command,commandWords) == 0){
           single_process_handle(command,commandWords);
         }
-        memset(buffer, 0, BUFFER_SIZE);
+        _memset(buffer, 0, BUFFER_SIZE);
     } 
 }
 
