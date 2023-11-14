@@ -40,7 +40,7 @@ uint64_t freeMem(void * ptr){
     return _syscall(SYS_FREE, ptr);
 }
 
-uint64_t mmStatus(char * buffer){
+uint64_t mmStatus(uint64_t * buffer){
     return _syscall(SYS_MM_STATUS, buffer);
 }
 

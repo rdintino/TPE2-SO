@@ -10,10 +10,11 @@
 #define BUFFER_SIZE 25
 #define STDIN 1
 #define STDOUT 1
-#define MODULES 16
+#define MODULES 19
 #define HALF_SECOND 500000000
 #define ACTIVE_PROCESS 1
 #define PAUSED_PROCESS 2
+#define MM_INFO 3
 
 typedef struct{
     char * name;
@@ -58,5 +59,8 @@ void cat();
 void wc();
 void filter();
 void phylo();
+void nice(char ** args);
+void block(char ** args);
+void mem_status();
 
 #endif

@@ -32,7 +32,10 @@ modules module[] = {
     {"wc","             -    Counts the lines in what has been written in screen",(uint64_t) &wc,0,1},
     {"filter","         -    Filters what has been written and only shows consonants",(uint64_t) &filter,0,1},
     {"kill","           -    Kills a process given its id",(uint64_t) &kill,1,0},
-    {"ps","             -    Shows every running process and its data",(uint64_t) &ps,0,0}
+    {"ps","             -    Shows every running process and its data",(uint64_t) &ps,0,0},
+    {"nice","             -  Changes the priority process  ",(uint64_t) &nice,2,0},
+    {"block","             - Pauses a process  ",(uint64_t) &block,1,0},
+    {"mem","             -   Displays the memory status",(uint64_t) &mem_status,0,0}
 };
 
 static char *starter = "$> ";
@@ -180,18 +183,6 @@ void initShell(){
         memset(buffer, 0, BUFFER_SIZE);
     } 
 }
-
-//void callModule(char *buffer){
-//    println("");
-//    for(int i = 0; i < MODULES; i++){
-//        if(strcmp(buffer, module[i].name) == 0){
-//            module[i].function();
-//            return;
-//        }
-//    }
-//    printf(buffer);
-//    println(": command not found, please enter 'help' for module list");
-//}
 
 void help(){
     for(int i = 0; i < MODULES; i++){
@@ -345,3 +336,42 @@ void kill(char ** args){
   return;
 }
 
+void nice(char ** args){
+  if(!isNum(args[1]) && !isNum(args[2])) { 
+      printf("Invalid argument! Arguments must be numbers.\n");
+      return;
+  }
+  unsigned int pid = _atoi(args[1]);
+  int delta = _atoi(args[2]);
+  niceProcess(pid, delta);
+}
+
+void block(char ** args){
+  if(!isNum(args[1])) { 
+    printf("Invalid argument! Argument must be number.\n");
+    return;
+  }
+  uint64_t pid = _atoi(args[1]);
+  pauseProcess((unsigned int)pid);
+  return;
+}
+
+static  char * mmInfo[] = { "Allocated Bytes: ", "Free Bytes: ", "Allocated Blocks: "};
+
+void mem_status(){
+  uint64_t info[MM_INFO] = { 0 };
+  mmStatus(info);
+
+  printf("Total Memory: ");
+
+  char buffer[BUFFER_SIZE] = { 0 };
+  _strncpy(buffer,int64ToString(info[0] + info[1]),BUFFER_SIZE);
+  println(buffer);
+
+  for(int i = 0 ; i < MM_INFO ; i++){
+      char buf[BUFFER_SIZE] = {0};
+      printf( mmInfo[i]);
+      _strncpy(buf,int64ToString(info[i]),BUFFER_SIZE);
+      println( buf);
+  }
+}

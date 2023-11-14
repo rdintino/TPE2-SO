@@ -64,7 +64,7 @@ void getRegisters();
 void putPixel(int row, int col, int color);
 uint64_t alloc(int len);
 uint64_t freeMem(void * ptr);
-uint64_t mmStatus(char * buffer);
+uint64_t mmStatus(uint64_t * buffer);
 uint64_t printMem(uint64_t pos, char * buffer);
 uint64_t registerPipe(unsigned int pipeID);
 uint64_t registerPipeAvailable();
@@ -87,5 +87,6 @@ uint64_t pauseProcess(unsigned int PID);
 uint64_t getProcessInfo(processInfo * info);
 uint64_t killProcess(unsigned int PID);
 uint64_t niceProcess(uint8_t PID, int delta);
+
 uint64_t renounceCPU();
 #endif

@@ -61,3 +61,76 @@ make clean all
 exit
 cd
 make clean all
+cd root
+make all
+make all
+make all
+make all
+cd Toolchain/
+make all
+make ..
+make all
+cd ..
+make all
+make all
+make all
+make all
+make all
+cd Toolchain/
+make all
+cd ..
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+clear
+make all
+clear
+make all
+clear
+make all
+clear
+make all
+make all
+make all
+make all
+cd Toolchain/
+make all
+cd ..
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+exit
