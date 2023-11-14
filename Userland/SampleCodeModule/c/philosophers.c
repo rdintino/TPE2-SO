@@ -48,7 +48,7 @@ void addPhilosopher(){
         char ** args = (char **) alloc(3 * sizeof(char *));
         char * buf = int64ToString(currentCount);
 
-        args[0] = (char *) (intptr_t) stringcpy(args[0], string, 12);
+        args[0] = (char *) (intptr_t) _strncpy(args[0], string, 12);
         args[1] = buf;
         philos = args;
         PIDS[currentCount] = registerChildProcess((uint64_t) &philosopher, STDIN, FOREGROUND, (uint64_t) philos);

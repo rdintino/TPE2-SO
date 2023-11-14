@@ -82,15 +82,6 @@ int getRandomSign() {
     return (seed % 2 == 0) ? 1 : -1;    // Devuelve 1 si es par, -1 si es impar
 }
 
-uint64_t _atoi(const char * string) {
-    uint64_t result = 0;
-
-    for(int i = 0 ; string[i] ; i++) {
-        result = result*10 + string[i] - '0';
-    }
-
-    return result;
-}
 
 char* int64ToString(int64_t num) {
     char* buffer = (char*)alloc(21); // 20 digits for the number, 1 for null-terminator
@@ -112,6 +103,35 @@ char* int64ToString(int64_t num) {
     return buffer;
 }
 
+uint64_t _atoi( char * string) {
+    uint64_t result = 0;
+
+    for(int i = 0 ; string[i] ; i++) {
+        result = result*10 + string[i] - '0';
+    }
+
+    return result;
+}
+
+int strlength(const char * str) {
+    int ans = 0;
+    for (int i = 0; str[i] != 0; i++) {
+        ans++;
+    }
+    return ans;
+}
+
+int isNum(char * str) {
+    int i = 0;
+    while (str[i] != 0) {
+        if (str[i] <= '0' || str[i] >= '9') {
+            return 0; 
+        }
+        i++;
+    }
+    return 1;
+}
+
 void reverseString(char * string, int length) {
     char aux;
     for(int i = 0, j = length - 1; i < j ; i++, j--) {
@@ -121,7 +141,7 @@ void reverseString(char * string, int length) {
     }
 }
 
-int stringcpy(char * dest, const char * src, unsigned int n){
+int _strncpy(char * dest, const char * src, unsigned int n){
     int i=0;
     for(; src[i]!=0 && i<n; i++){
         dest[i] = src[i];

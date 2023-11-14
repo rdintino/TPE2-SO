@@ -9,6 +9,8 @@
         "multitasking.h": "c",
         "locks.h": "c",
         "string.h": "c",
-        "cstdio": "c"
+        "cstdio": "c",
+        "libio.h": "c",
+        "LIBIO.H": "cpp"
     }
 }
