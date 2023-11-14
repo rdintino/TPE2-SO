@@ -82,6 +82,7 @@ int getRandomSign() {
     return (seed % 2 == 0) ? 1 : -1;    // Devuelve 1 si es par, -1 si es impar
 }
 
+
 char* int64ToString(int64_t num) {
     char* buffer = (char*)alloc(21); // 20 digits for the number, 1 for null-terminator
     if (buffer == NULL) {

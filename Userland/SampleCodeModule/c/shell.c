@@ -98,7 +98,6 @@ char ** make_params(char ** words, unsigned int len){
     }
     params[i] = NULL;
 
-    println(params[1]);
 
     return params;
 }
@@ -334,14 +333,12 @@ void ps(){
 
 
 void kill(char ** args){
-    println(args[1]);
   if(!isNum(args[1])) { 
     printf("Kill's argument must be number (process id).\n");
     return;
   }
 
   uint64_t pid = _atoi(args[1]);
-  println(int64ToString(pid));
   if (killProcess(pid) == ERROR_PID){
     printf(INVALID_PID_MSG);
   }
