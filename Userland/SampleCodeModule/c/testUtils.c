@@ -65,7 +65,7 @@ void endlessLoopPrint(uint64_t wait) {
   int64_t PID = getPID();
 
   while (1) {
-    printf(int64ToString(PID));
+    println("hola");
     bussyWait(wait);
   }
 }

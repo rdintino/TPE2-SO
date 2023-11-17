@@ -27,6 +27,7 @@ modules module[] = {
     {"testMm","         -    Test memory manager",(uint64_t) &testMm,0,0},
     {"testProcesses", " -    Test process management",(uint64_t) &testProcesses,1,0},
     {"testPriorities", "-    Test priorities",(uint64_t) &testPriorities,0,0},
+    {"testSync", "      -    Test sync",(uint64_t) &testSync,1,0},
     {"cat", "           -    Writes in console what has been read",(uint64_t) &cat,0,1},
     {"loop", "          -    Loops while printing the process id every half a second",(uint64_t) &loop,0,1},
     {"wc", "            -    Counts the lines in what has been written in screen",(uint64_t) &wc,0,0},

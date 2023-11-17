@@ -134,3 +134,74 @@ make all
 make all
 make all
 exit
+cd root
+ls
+cd Toolchain/
+make all
+cd ..
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+cd ..
+make all
+cd root
+ls
+cd Toolchain/
+make all
+cd ..
+make all
+cd root
+ls
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+make all
+exit
+cd root
+ls
+make all
+make all
+cd root
+ls
+make all
+make all
+make all

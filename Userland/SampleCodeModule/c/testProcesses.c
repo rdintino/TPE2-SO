@@ -12,33 +12,30 @@ typedef struct P_rq {
   enum State state;
 } p_rq;
 
-void testProcesses(uint64_t argc, char *argv[]){
+void testProcesses(char *argv[]){
   uint8_t rq;
   uint8_t alive = 0;
   uint8_t action;
   uint64_t maxProcesses;
   char * auxArgs[] = {0};
 
-  if (argc != 1)
-    return;
-
-  maxProcesses = satoi(argv[0]);
+  maxProcesses = satoi(argv[1]);
   if ( maxProcesses <= 0){
     return;
   }
 
   p_rq p_rqs[maxProcesses];
-
-  printf("testProcesses : Creating processes \n");
+printf("testProcesses: Creating ");
+println(int64ToString(maxProcesses));
 
   while (1) {
 
     // Create processes
     for (rq = 0; rq < maxProcesses; rq++) {
-       p_rqs[rq].pid = registerChildProcess((uint64_t)&endlessLoop, 1, 1, (uint64_t) auxArgs);
+        p_rqs[rq].pid = registerChildProcess((uint64_t)&endlessLoop, 1, 1, (uint64_t) auxArgs);
 
       if (p_rqs[rq].pid == -1) {
-        printf("test_processes: Error creating process\n");
+        printf("testProcesses: Error creating process\n");
         return;
       } else {
         p_rqs[rq].state = RUNNING;
@@ -51,7 +48,6 @@ void testProcesses(uint64_t argc, char *argv[]){
 
       for (rq = 0; rq < maxProcesses; rq++) {
         action = getUniform(100) % 2;
-
         switch (action) {
           case 0:
             if (p_rqs[rq].state == RUNNING || p_rqs[rq].state == BLOCKED) {

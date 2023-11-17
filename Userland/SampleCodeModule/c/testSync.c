@@ -24,7 +24,7 @@ void myProcessInc(uint64_t argc, char *argv[]) {
   }
 }
 
-uint64_t testSync(uint64_t argc, char *argv[]) { //{n, use_sem, 0}
+void testSync(char *argv[]) { //{n, use_sem, 0}
  int semUse = satoi(argv[1]);
   if(semUse) {
     destroySemaphore(SEM_ID);

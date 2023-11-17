@@ -11,7 +11,7 @@
 #define BUFFER_SIZE 25
 #define STDIN 1
 #define STDOUT 1
-#define MODULES 20
+#define MODULES 21
 #define HALF_SECOND 500000000
 #define ACTIVE_PROCESS 1
 #define PAUSED_PROCESS 2
@@ -46,8 +46,10 @@ void pong();
 void infoReg();
 void clear();
 void testMm();
-void testProcesses(uint64_t argc, char *argv[]);
+void testProcesses( char *argv[]);
 void testPriorities();
+void testSync( char *argv[]);
+void endlessLoopPrint(uint64_t wait);
 
 void ps();
 void loop();
